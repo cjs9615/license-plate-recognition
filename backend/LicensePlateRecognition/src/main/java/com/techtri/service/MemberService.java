@@ -18,6 +18,12 @@ public class MemberService {
 	private MemberRepository memRepo;
 	PasswordEncoder encoder = new BCryptPasswordEncoder();
 	
+	public ResponseEntity<?> checkId(String id) {
+		if(memRepo.findById(id).isPresent())
+			return ResponseEntity.badRequest().build();
+		return ResponseEntity.ok().build();
+	}
+	
 	@Transactional
 	public ResponseEntity<?> memberRegister(Member member) {
 		if(memRepo.findById(member.getId()).isPresent())

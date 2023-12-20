@@ -2,6 +2,7 @@ package com.techtri.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +17,11 @@ public class MemberController {
 	
 	@PostMapping("/login")
 	public void login() {}
+	
+	@GetMapping("/api/techtri/check-id")
+	public ResponseEntity<?> checkId(String id){
+		return memberService.checkId(id);
+	}
 	
 	@PostMapping("/api/techtri/signup")
 	public ResponseEntity<?> memberRegister(@RequestBody Member member) {
