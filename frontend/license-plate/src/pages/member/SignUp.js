@@ -133,7 +133,7 @@ const SignUp = () => {
                                     id="signUpId"
                                     ref={signUpId}
                                     onChange={handleIdChange}
-                                    placeholder="아이디는 4~12자로 입력해주세요"
+                                    placeholder="아이디를 입력해주세요 (4~12자)"
                                     className="bg-[#F3F3F3] rounded-[10px] border-[#2E3D4E] focus:border-[#2E3D4E] focus:ring-[#2E3D4E] w-[75%] h-[50px]" />
                                 <button
                                     onClick={idCheck}
