@@ -4,6 +4,8 @@ import { RecoilRoot } from 'recoil';
 import Login from './pages/member/Login';
 import SignUp from './pages/member/SignUp';
 import Main from './pages/main/Main';
+import Search from './pages/main/Search';
+import Admin from './pages/main/Admin';
 
 function App() {
   return (
@@ -14,6 +16,8 @@ function App() {
             <Route path='/' element={<Login />}></Route>
             <Route path='/signUp' element={<SignUp />}></Route>
             <Route path='/main' element={<Main />}></Route>
+            <Route path='/search' element={<Search />}></Route>
+            <Route path='/admin' element={<Admin />}></Route>
           </Routes>
         </RecoilRoot>
       </main>

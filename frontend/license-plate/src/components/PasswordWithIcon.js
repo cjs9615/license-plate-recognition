@@ -29,8 +29,8 @@ const PasswordWithIcon = ({inputId, refs}) => {
             <div onClick={iconClick} className="absolute right-0 top-0 mt-3 mr-4">
                 {
                     isClicked
-                    ? <FaEyeSlash className="text-2xl"/>
-                    : <FaEye className="text-2xl"/>
+                    ? <FaEye className="text-2xl"/>
+                    : <FaEyeSlash className="text-2xl text-gray-500"/>
                 }
             </div>
         </div>

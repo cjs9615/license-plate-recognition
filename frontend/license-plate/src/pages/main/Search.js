@@ -1,15 +1,14 @@
 import SideBar from "../../components/SideBar"
 
-const Main = () => {
+const Search = () => {
     return (
         <div className="grow flex">
             <SideBar />
-            <div className="">
-                테스트
+            <div>
+                검색
             </div>
-            
         </div>
     )
 }
 
-export default Main
+export default Search
