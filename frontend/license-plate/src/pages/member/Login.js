@@ -32,11 +32,11 @@ const Login = () => {
 
         console.log(loginData);
 
-        axios.post("http://10.125.121.209:8080/login", loginData)
+        axios.post("http://10.125.121.216:8080/login", loginData)
                 .then((resp)=>{
                     console.log("token: ", resp.headers.get("Authorization"));
                     localStorage.setItem("token", resp.headers.get("Authorization"));
-                    console.log("로그인 성공");
+                    localStorage.setItem("id",loginId.current.value);
                     setIsLoggedIn(true);
                     navigate("/main");
                 })
