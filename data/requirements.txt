@@ -1,0 +1,4 @@
+flask
+yolov5
+transformers
+git+https://github.com/sberbank-ai/Real-ESRGAN.git
