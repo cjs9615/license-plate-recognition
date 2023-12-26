@@ -136,3 +136,5 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+LicensePlateRecognition/src/main/resources/application.properties
