@@ -1,12 +1,9 @@
 package com.techtri.domain;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.CreatedDate;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,25 +14,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Getter
-@ToString
 @Entity
+@Getter
 @Builder
-@AllArgsConstructor
+@ToString
 @NoArgsConstructor
-public class Predict {
+@AllArgsConstructor
+public class RegisteredCars {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int seq;
-
-	@CreationTimestamp 
-	private Timestamp time;
+	private String plateNumber;
 	
-	private Boolean isSuccess; // 추론 결과
-	private double confidenceScore; // 신뢰도 점수
+	@CreationTimestamp
+	private Timestamp regiDate;
 	
-	private String number; // 추론한 번호
-	
-	@Column(nullable = true)
-	private String comment; // 비고사항
+	private boolean status;
 }

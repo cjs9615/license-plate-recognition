@@ -5,6 +5,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -20,25 +21,31 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.techtri.domain.Images;
 import com.techtri.domain.Predict;
+import com.techtri.domain.RegisteredCars;
 import com.techtri.dto.PredictResultDto;
 import com.techtri.dto.RequestFlaskDto;
 import com.techtri.dto.ResponseFlaskDto;
 import com.techtri.persistence.ImagesRepository;
 import com.techtri.persistence.PredictRepository;
+import com.techtri.persistence.RegisteredCarsRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class PredictService {
 	private PredictRepository predictRepo;
 	private ImagesRepository imagesRepo;
+	private RegisteredCarsRepository regiCarRepo;
 	private S3Service s3Service;
-	
+
 	private ObjectMapper objectMapper; // JSON 객체 변환을 위해 사용
 
-	public PredictService(S3Service s3Service, PredictRepository predictRepo, ImagesRepository imagesRepo) {
+	public PredictService(S3Service s3Service, PredictRepository predictRepo, ImagesRepository imagesRepo, RegisteredCarsRepository regiCarRepo) {
 		this.s3Service = s3Service;
 		this.objectMapper = new ObjectMapper();
 		this.predictRepo = predictRepo;
 		this.imagesRepo = imagesRepo;
+		this.regiCarRepo = regiCarRepo;
 	}
 
 	private ResponseFlaskDto sendToFlask(RequestFlaskDto dto) throws JsonProcessingException {
@@ -51,7 +58,7 @@ public class PredictService {
 		String param = objectMapper.writeValueAsString(dto);
 		HttpEntity<String> entity = new HttpEntity<String>(param, headers);
 
-		String url = "http://10.125.121.209:5000/receive_string";
+		String url = "http://10.125.121.209:5000/receive_image_url";
 
 		// response 파싱
 		HttpEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
@@ -78,34 +85,38 @@ public class PredictService {
 		return null;
 	}
 
+	@Transactional
 	public PredictResultDto predictLicensePlate(MultipartFile file) throws IOException {
-		String preImage = s3Service.uploadFiles(file,0);
-		
-		RequestFlaskDto requestDto = RequestFlaskDto.builder().url(preImage).build();				
+		String preImage = s3Service.uploadFiles(file, 0);
+		RequestFlaskDto requestDto = RequestFlaskDto.builder().url(preImage).build();
 		ResponseFlaskDto responseDto = sendToFlask(requestDto);
 		
-		String licensePlateImage = decodeFile(responseDto);
-		
 		Predict predict = predictRepo.save(Predict.builder()
-					.isSuccess(responseDto.getResult() != null? true : false)
-					.number(responseDto.getResult())
-					.build());
-	
-		imagesRepo.save(Images.builder()
-				.type("pre-prediction")
-				.url(preImage)
-				.predictId(predict.getSeq()).build());
-		
-		if(predict.getIsSuccess())
-			imagesRepo.save(Images.builder()
-					.type("license-plate")
-					.url(licensePlateImage)
-					.predictId(predict.getSeq()).build());
-		
-		//result에 있는 값 DB검색
-		
-		//PredictResultDto 전송
+				.isSuccess(responseDto.isSuccess())
+				.number(responseDto.getResult()).comment(responseDto.getMessage()).build());
 
-		return null;
+		imagesRepo.save(Images.builder().type("pre-prediction").url(preImage).predictId(predict.getSeq()).build());
+
+		if (!responseDto.isSuccess())
+			return PredictResultDto.builder().isSuccess(false).build();
+
+		String licensePlateImage = decodeFile(responseDto);
+		imagesRepo.save(
+				Images.builder().type("license-plate").url(licensePlateImage).predictId(predict.getSeq()).build());
+
+		
+		// result 값 DB검색
+		String plateNumber= responseDto.getResult(); 
+		if(plateNumber.length() > 4)
+			plateNumber = plateNumber.substring(plateNumber.length()-4, plateNumber.length());
+		plateNumber = plateNumber.replaceAll("[^0-9]", "");		
+		List<RegisteredCars> numberList = regiCarRepo.findByPlateNumberContaining(plateNumber);
+		
+		PredictResultDto result = PredictResultDto.builder()
+					.licensePlateImage(licensePlateImage).isSuccess(responseDto.isSuccess())
+					.predictResult(plateNumber).confidenceScore(predict.getConfidenceScore())
+					.numberList(numberList).predictId(predict.getSeq()).build();
+
+		return result;
 	}
 }
