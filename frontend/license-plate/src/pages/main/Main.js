@@ -1,17 +1,28 @@
 import { useEffect, useState } from "react"
 import SideBar from "../../components/SideBar"
 import { FiCamera } from "react-icons/fi";
+import { AiOutlinePicture } from "react-icons/ai";
 import Modal from "../../components/Modal";
+// import MainBtn from "../../components/MainBtn";
+import MainTable from "../../components/MainTable";
+import loadingGIF from "../../images/loadingIcon.gif";
 
 const Main = () => {
     const [imgUrl, setImgUrl] = useState();
     const [imgFile, setImgFile] = useState();
+
     // 드래그앤드롭
     const [isActive, setActive] = useState(false);
     const handleDragStart = () => setActive(true);
     const handleDragEnd = () => setActive(false);
+
     // 이미지 전체보기 모달창
     const [modalOpen, setModalOpen] = useState(false);
+
+    // 추론
+    const [progressStatus, setProgressStatus] = useState(false);
+    const [predValue, setPredValue] = useState();
+    const [matchedData, setMatchedData] = useState();
 
     const handleModalOpen = () => {
         setModalOpen(true);
@@ -27,7 +38,7 @@ const Main = () => {
 
         const file = e.target.files[0];
 
-        console.log("파일: ", file);
+        // console.log("파일: ", file);
 
         const reader = new FileReader();
         reader.readAsDataURL(file);
@@ -47,7 +58,7 @@ const Main = () => {
         e.preventDefault();
 
         const file = e.dataTransfer.files[0];
-        console.log("파일: ", file);
+        // console.log("파일: ", file);
 
         const reader = new FileReader();
         reader.readAsDataURL(file);
@@ -63,6 +74,8 @@ const Main = () => {
             return;
         }
 
+        setProgressStatus(true);
+
         const formData = new FormData();
         formData.append('file', imgFile);
 
@@ -70,14 +83,21 @@ const Main = () => {
             method: "POST",
             body: formData,
         })
-            .then(resp => console.log("성공1"))
-            .then(data => console.log("성공2"))
+            .then(resp => resp.json())
+            .then(data => {
+                if (data.success) {
+                    console.log("성공");
+                    setProgressStatus(false);
+                    console.log("데이터: ", data);
+                    setPredValue(data);
+                    setMatchedData(data.numberList);
+                } else {
+                    setProgressStatus(false);
+                    console.log("실패")
+                }
+            })
             .catch(err => console.log(err));
     }
-
-    useEffect(() => {
-        console.log("파일 설정:", imgFile);
-    }, [imgFile])
 
     return (
         <div className="grow flex">
@@ -112,34 +132,82 @@ const Main = () => {
                             }
                         </label>
                         <div className="flex justify-between items-center">
-                            <button onClick={handleModalOpen} className="bg-inherit border-[2px] rounded-[10px] border-[#2E3D4E] text-[#2E3D4E] w-[85px] h-[35px] mt-[1rem]">전체보기</button>
-                            <button onClick={predictImage} className="bg-inherit border-[2px] rounded-[10px] border-[#2E3D4E] text-[#2E3D4E] w-[85px] h-[35px] mt-[1rem]">결과확인</button>
+                            <button onClick={handleModalOpen} className={`transition-all bg-[#1D647A] hover:bg-[#103c49] text-white tracking-widest w-full h-[35px] mt-[1rem]`}>
+                                전체보기
+                            </button>
+                            <button onClick={predictImage} className={`transition-all bg-[#008E93] hover:bg-[#103c49] text-white tracking-widest w-full h-[35px] mt-[1rem]`}>
+                                결과확인
+                            </button>
                         </div>
                         <input type="file" id="targetImg" onChange={handleChangeFile} hidden accept=".jpg, .jpeg, .png"></input>
-
                     </div>
                     <div className="w-full lg:w-[50%] h-[400px] lg:h-full lg:p-2">
                         <h2 className="text-lg font-bold">RESULT</h2>
-                        <div className="h-[150px] pb-1">
-                            <img className="w-full h-full object-fill" src="https://techtri-s3-bucket.s3.ap-northeast-2.amazonaws.com/pre-prediction-images/48c60d70-9fe4-47b9-b92f-82b1945e1e17-3f877ffd-8390-4bc8-a9ff-2e9541c6d704.jpg"></img>
-                        </div>
-                        <div className="h-[150px] pt-1">
-                            <img className="w-full h-full object-fill" src="https://techtri-s3-bucket.s3.ap-northeast-2.amazonaws.com/license-plate/7c487ef8-2ab4-4fb4-b407-9045a6b35b25-output.jpg"></img>
-                        </div>
-                        <div className="flex flex-col justify-center text-black h-[60px] mt-1">
-                            <div className="flex justify-between items-center font-bold px-6">
-                                <p>Object : truck</p>
-                                <p>예측번호 : 1234</p>
-                                <p>정확도 : 98%</p>
+                        <div>
+                            <div className="h-[150px] pb-1">
+                                <div className="flex justify-center items-center bg-[#D9D9D9] w-full h-full m-auto">
+                                    {
+                                        predValue && predValue
+                                            ? <img className="w-full h-full object-fill" src={`${imgUrl}`}></img>
+                                            : <div className="flex flex-col">
+                                                {
+                                                    progressStatus
+                                                        ? <img src={loadingGIF} className="w-full" ></img>
+                                                        : <div>
+                                                            <AiOutlinePicture className="text-4xl text-gray-500 w-full" />
+                                                            <p className="text-sm text-gray-500">차량 객체를 인식하여 표시합니다</p>
+                                                        </div>
+                                                }
+                                            </div>
+                                    }
+                                </div>
                             </div>
+                            <div className="h-[150px] pb-1">
+                                <div className="flex justify-center items-center bg-[#D9D9D9] w-full h-full m-auto">
+                                    {
+                                        predValue && predValue
+                                            ? <img className="w-full h-full object-fill" src={`${predValue.licensePlateImage}`}></img>
+                                            : <div className="flex flex-col">
+                                                {
+                                                    progressStatus
+                                                        ? <img src={loadingGIF} className="w-full" ></img>
+                                                        : <div>
+                                                            <AiOutlinePicture className="text-4xl text-gray-500 w-full" />
+                                                            <p className="text-sm text-gray-500">번호판을 인식하여 표시합니다</p>
+                                                        </div>
+                                                }
+                                            </div>
+                                    }
+
+                                </div>
+                            </div>
+                            {
+                                predValue && predValue
+                                    ? <div className="flex flex-col justify-center text-black h-[60px] mt-1">
+                                        <div className="flex flex-col md:flex-row justify-between items-center font-bold px-2 mt-3 md:mt-0">
+                                            <p>Object : ???</p>
+                                            <p>예측번호 : {predValue.predictResult}</p>
+                                            <p>정확도 : ???</p>
+                                        </div>
+                                    </div>
+                                    : <div>
+                                        {
+                                            progressStatus
+                                                ? <p>데이터 분석중입니다. 잠시만 기다려주세요...</p>
+                                                : ""
+                                        }
+                                    </div>
+                            }
                         </div>
                     </div>
                 </div>
-                <div className="bg-green-100 w-full mt-[1.5rem] h-[200px] md:h-[400px] border-t-2 border-black lg:p-2">
+                <div className=" w-full mt-[1.5rem] border-t-2 border-black lg:p-2">
                     <h2 className="text-lg font-bold">DB 결과</h2>
-                    <div className="border-[1px] border-black h-[300px] mt-2">
-                        
-                    </div>
+                    {
+                        matchedData && matchedData
+                            ? <MainTable data={matchedData} />
+                            : ""
+                    }
                 </div>
             </div>
             {
