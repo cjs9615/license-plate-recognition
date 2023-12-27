@@ -29,9 +29,12 @@ public class MemberService {
 		if(memRepo.findById(member.getId()).isPresent())
 			return ResponseEntity.badRequest().build();
 		
-		member.setRole(Role.ROLE_MEMBER);
-		member.setPassword(encoder.encode(member.getPassword()));
-		memRepo.save(member);
+		memRepo.save(Member.builder()
+					.id(member.getId())
+					.password(encoder.encode(member.getPassword()))
+					.email(member.getEmail())
+					.role(Role.ROLE_MEMBER)
+					.build());
 		
 		return ResponseEntity.ok().build();
 	}
