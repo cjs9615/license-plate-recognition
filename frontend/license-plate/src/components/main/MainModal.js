@@ -1,6 +1,6 @@
 import { IoMdCloseCircleOutline } from "react-icons/io";
 
-const Modal = ({ setModalOpen, imgUrl }) => {
+const MainModal = ({ setModalOpen, imgUrl }) => {
     const handleModalOepn = () => {
         setModalOpen(false);
     }
@@ -29,4 +29,4 @@ const Modal = ({ setModalOpen, imgUrl }) => {
     )
 }
 
-export default Modal
+export default MainModal

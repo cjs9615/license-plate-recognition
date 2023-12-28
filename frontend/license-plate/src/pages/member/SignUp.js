@@ -1,7 +1,7 @@
 import axios from "axios"
 import { useRef, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import PasswordWithIcon from "../../components/PasswordWithIcon"
+import PasswordWithIcon from "../../components/comm/PasswordWithIcon"
 
 const SignUp = () => {
     // 회원가입 관련

@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react"
-import SideBar from "../../components/SideBar"
+import SideBar from "../../components/comm/SideBar"
 import { FiCamera } from "react-icons/fi";
 import { AiOutlinePicture } from "react-icons/ai";
-import Modal from "../../components/Modal";
-// import MainBtn from "../../components/MainBtn";
-import MainTable from "../../components/MainTable";
+import MainModal from "../../components/main/MainModal";
+import MainTable from "../../components/main/MainTable";
 import loadingGIF from "../../images/loadingIcon.gif";
 
 const Main = () => {
@@ -212,7 +211,7 @@ const Main = () => {
             </div>
             {
                 modalOpen
-                    ? <Modal setModalOpen={setModalOpen} imgUrl={imgUrl} />
+                    ? <MainModal setModalOpen={setModalOpen} imgUrl={imgUrl} />
                     : ""
             }
         </div>
