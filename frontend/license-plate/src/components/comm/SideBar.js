@@ -4,7 +4,7 @@ import { FaScrewdriverWrench } from "react-icons/fa6";
 import { FaSignOutAlt } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
-import { LoginStateAtom } from "../pages/member/LoginStateAtom";
+import { LoginStateAtom } from "../../pages/member/LoginStateAtom";
 
 const SideBar = () => {
     const navigate = useNavigate();
