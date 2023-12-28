@@ -24,5 +24,6 @@ public class Images { // 이미지 url 저장 테이블
 	private int seq;
 	
 	private String url;
+	private String type;
 	private int predictId;
 }
