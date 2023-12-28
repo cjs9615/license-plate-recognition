@@ -1,6 +1,9 @@
 package com.techtri.domain;
 
+import java.sql.Timestamp;
 import java.util.Date;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,7 +26,9 @@ public class Record { // 입출차 기록T
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int seq;
-	private Date timestamp;
+	
+	@CreationTimestamp 
+	private Timestamp time;
 	private String status; // 입/출차 유형
 	
 	private int carNumber; // 등록차량 ID

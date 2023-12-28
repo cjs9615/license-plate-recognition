@@ -4,7 +4,7 @@ import { FaScrewdriverWrench } from "react-icons/fa6";
 import { FaSignOutAlt } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
-import { LoginStateAtom } from "../pages/member/LoginStateAtom";
+import { LoginStateAtom } from "../../pages/member/LoginStateAtom";
 
 const SideBar = () => {
     const navigate = useNavigate();
@@ -48,7 +48,7 @@ const SideBar = () => {
                 return (
                     <div key={`${menu[0]}Item`}>
                         <Link to={menu[0]}>
-                            <div className="flex gap-5 justify-center items-center h-[50px] md:justify-start md:px-[30px] hover:bg-[#F3F3F3] hover:text-[#2E3D4E] hover:font-bold">
+                            <div className="transition-all flex gap-5 justify-center items-center h-[50px] md:justify-start md:px-[30px] hover:bg-[#F3F3F3] hover:text-[#2E3D4E] hover:font-bold">
                                 {menu[2]}
                                 <div className="hidden md:block">
                                     {menu[1]}
@@ -73,12 +73,9 @@ const SideBar = () => {
             <div>
                 {menuItems}
             </div>
-            <div className="absolute w-full bottom-5">
-
-                <div onClick={handleLogout} className="flex justify-center gap-2 items-center hover:underline cursor-pointer">
-                    <FaSignOutAlt />
-                    <p className="text-center hidden md:block">로그아웃</p>
-                </div>
+            <div onClick={handleLogout} className="transition-all flex gap-5 justify-center items-center text-[#c0c0c0] h-[50px] md:justify-start md:px-[30px] mt-[1rem] hover:underline cursor-pointer">
+                <FaSignOutAlt />
+                <p className="hidden md:block">로그아웃</p>
             </div>
         </aside>
     )
