@@ -1,4 +1,4 @@
-package com.techtri.service;
+package com.techtri.util;
 
 import java.io.File;
 import java.io.FileInputStream;

@@ -28,6 +28,7 @@ import com.techtri.dto.ResponseFlaskDto;
 import com.techtri.persistence.ImagesRepository;
 import com.techtri.persistence.PredictRepository;
 import com.techtri.persistence.RegisteredCarsRepository;
+import com.techtri.util.JavaFileToMultipartFile;
 
 import jakarta.transaction.Transactional;
 
