@@ -8,12 +8,8 @@ from model_RealESRGAN import model_RealESRGAN
 
 app = Flask(__name__)
 
-@app.route('/')
-def hello():
-    return 'hello'
-
-@app.route('/receive_string', methods=['POST'])
-def receive_string():
+@app.route('/receive_image_url', methods=['POST'])
+def receive_imgage_url():
 	#Spring으로부터 JSON 객체를 전달받음
     dto_json = request.get_json()
 
@@ -37,7 +33,7 @@ def receive_string():
     #번호판 이미지 추출
     license_plate_img = model_license_plate(img)
     if(license_plate_img == 'no license_plate') : 
-        response['success'] = 'false'
+        response['success'] = False
         response['message'] = 'no license_plate'
         return jsonify(response)
     
@@ -55,7 +51,7 @@ def receive_string():
     response['result'] = generated_text
     response['image'] = encoded_image
     response['format'] = 'jpeg'
-    response['success'] = 'true'
+    response['success'] = True
     
     #Spring으로 response 전달
     return jsonify(response)
