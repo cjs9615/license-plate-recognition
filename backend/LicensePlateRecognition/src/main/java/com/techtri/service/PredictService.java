@@ -115,8 +115,7 @@ public class PredictService {
 		
 		PredictResultDto result = PredictResultDto.builder()
 					.licensePlateImage(licensePlateImage).isSuccess(responseDto.isSuccess())
-					.predictResult(plateNumber).confidenceScore(predict.getConfidenceScore())
-					.numberList(numberList).predictId(predict.getSeq()).build();
+					.predictResult(plateNumber).numberList(numberList).predictId(predict.getSeq()).build();
 
 		return result;
 	}
