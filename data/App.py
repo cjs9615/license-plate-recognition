@@ -24,7 +24,7 @@ def receive_imgage_url():
 
     if(dto_json['url'] != '') :
         # 이미지 불러오기
-        img = Image.open(requests.get(dto_json['url'], stream=True).raw)
+        img = Image.open(requests.get(dto_json['url'], stream=True).raw).convert("RGB")
         #img = Image.open(dto_json['url'])
     else:
         img = Image.open(dto_json['local'])
