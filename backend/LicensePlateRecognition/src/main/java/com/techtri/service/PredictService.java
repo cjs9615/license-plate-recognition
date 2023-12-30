@@ -111,7 +111,7 @@ public class PredictService {
 		if(plateNumber.length() > 4)
 			plateNumber = plateNumber.substring(plateNumber.length()-4, plateNumber.length());
 		plateNumber = plateNumber.replaceAll("[^0-9]", "");		
-		List<RegisteredCars> numberList = regiCarRepo.findByPlateNumberContaining(plateNumber);
+		List<RegisteredCars> numberList = regiCarRepo.findByPlateNumberContainingAndStatus(plateNumber, true);
 		
 		PredictResultDto result = PredictResultDto.builder()
 					.licensePlateImage(licensePlateImage).isSuccess(responseDto.isSuccess())

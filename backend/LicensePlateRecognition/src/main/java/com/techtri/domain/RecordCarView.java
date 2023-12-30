@@ -17,7 +17,10 @@ import lombok.NoArgsConstructor;
 public class RecordCarView {
 	@Id
 	private int seq; // recordID
+	private String writer;
 	private Timestamp time;
 	private String status;
 	private String plateNumber;
+	private int predictId;
+	private String comment; 
 }

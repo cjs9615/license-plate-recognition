@@ -31,10 +31,14 @@ public class Record { // 입출차 기록T
 	private Timestamp time;
 	private String status; // 입/출차 유형
 	
-	private int carNumber; // 등록차량 ID
+	private int carId; // 등록차량 ID
 	private String writer; // 기록 유저 ID
 	private int predictId; // 관련 추론 ID
 	
 	@Column(nullable = true)
 	private String comment; // 비고사항
+	
+	public void updateCarId(int carId) {
+		this.carId = carId;
+	}
 }
