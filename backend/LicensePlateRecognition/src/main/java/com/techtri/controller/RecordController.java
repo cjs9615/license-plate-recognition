@@ -1,0 +1,27 @@
+package com.techtri.controller;
+
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.techtri.domain.RecordCarView;
+import com.techtri.domain.Search;
+import com.techtri.service.RecordService;
+
+@RestController
+public class RecordController {
+	private RecordService recordService;
+	
+	public RecordController(RecordService recordService) {
+		this.recordService = recordService;
+	}
+	
+	@GetMapping("/api/techtri/record/{pageNo}")
+	public Page<RecordCarView> getRecord(@PathVariable Integer pageNo, @RequestBody Search search) {
+		return recordService.getRecordList(pageNo, search);
+	}
+}
