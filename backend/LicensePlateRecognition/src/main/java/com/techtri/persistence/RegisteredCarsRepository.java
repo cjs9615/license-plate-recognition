@@ -8,4 +8,5 @@ import com.techtri.domain.RegisteredCars;
 
 public interface RegisteredCarsRepository extends JpaRepository<RegisteredCars, Integer> {
 	List<RegisteredCars> findByPlateNumberContaining(String number);
+	List<RegisteredCars> findByPlateNumberContainingAndStatus(String number,boolean status);
 }

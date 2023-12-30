@@ -32,7 +32,6 @@ public class Predict {
 	private Timestamp time;
 	
 	private Boolean isSuccess; // 추론 결과
-	private double confidenceScore; // 신뢰도 점수
 	
 	private String number; // 추론한 번호
 	
