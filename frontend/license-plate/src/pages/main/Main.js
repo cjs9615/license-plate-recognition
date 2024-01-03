@@ -1,13 +1,12 @@
 import { useState } from "react"
 import SideBar from "../../components/comm/SideBar"
-
-
 import MainModal from "../../components/main/MainModal";
 import MainTable from "../../components/main/MainTable";
 import MainCard from "../../components/main/MainCard";
 import testData from "../../testData.json";
 import MainInput from "../../components/main/MainInput";
 import MainResult from "../../components/main/MainResult";
+import { Link } from "react-router-dom";
 
 const Main = () => {
     const [imgUrl, setImgUrl] = useState();
@@ -21,6 +20,7 @@ const Main = () => {
     const [predValue, setPredValue] = useState();
     const [matchedData, setMatchedData] = useState();
     const [resultTime, setResultTime] = useState();
+    const [isSuccessed, setIsSuccessed] = useState();
 
     // 선택된 차량번호
     const [truckNumber, setTruckNumber] = useState();
@@ -66,8 +66,10 @@ const Main = () => {
                     setPredValue(data);
                     setMatchedData(data.numberList);
                     setResultTime(dateFormat(new Date()));
+                    isSuccessed(true);
                 } else {
                     setProgressStatus(false);
+                    isSuccessed(false);
                     // 실패했을때 처리하기
                     console.log("실패")
                 }
@@ -92,30 +94,31 @@ const Main = () => {
                         setModalOpen={setModalOpen}
                         predictImage={predictImage}
                     />
-                    <MainResult 
+                    <MainResult
                         imgUrl={imgUrl}
                         predValue={predValue}
                         progressStatus={progressStatus}
-                        />
+                    />
                 </div>
                 <div className="flex flex-col lg:flex-row gap-6 w-full mt-[1.5rem] mb-[2.5rem] lg:mb-0 border-t-2 border-[#eee] lg:p-2">
-                    <MainCard resultTime={resultTime} truckNumber={truckNumber} predictId="29" />
-                    {/* {
-                            predValue && predValue.predictResult
-                            ? <MainCard predictId={predValue.predictId}/>
+                    {/* <MainCard resultTime={resultTime} truckNumber={truckNumber} predictId="29" /> */}
+                    {
+                        predValue && predValue.predictResult
+                            ? <MainCard resultTime={resultTime} truckNumber={truckNumber} predictResult={predValue.predictResult} predictId={predValue.predictId} />
                             : ""
-                        } */}
+                    }
 
-                    <MainTable data={testData} setTruckNumber={setTruckNumber} />
-                    {/* {
-                            matchedData && matchedData
-                                ?
-                                <div>
-                                    <MainTable data={matchedData} />
-                                </div>
-                                : ""
-                        } */}
+                    {/* <MainTable data={testData} setTruckNumber={setTruckNumber} /> */}
+                    {
+                        matchedData && matchedData
+                            ?
+                            <MainTable data={matchedData} setTruckNumber={setTruckNumber} />
+                            : ""
+                    }
                 </div>
+                {/* <div>
+                    <Link to="/test">test</Link>
+                </div> */}
             </div>
             {
                 modalOpen
