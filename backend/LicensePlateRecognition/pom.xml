@@ -116,6 +116,11 @@
 			<version>5.0.0</version>
 			<classifier>jakarta</classifier>
 		</dependency>
+		<!-- socket -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
