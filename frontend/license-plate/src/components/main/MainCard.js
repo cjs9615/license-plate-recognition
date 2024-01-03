@@ -1,6 +1,6 @@
 import { useRef } from "react";
 
-const MainCard = ({ resultTime, truckNumber, predictId }) => {
+const MainCard = ({ resultTime, truckNumber, predictResult, predictId }) => {
     // 입출차 유형
     const entryType = useRef();
 
@@ -29,7 +29,7 @@ const MainCard = ({ resultTime, truckNumber, predictId }) => {
             <div className="relative mt-2 h-[320px] border-[1px] border-[#333333] ">
                 <div className="text-center border-b-[1px] h-[110px] py-2">
                     {/* <h3 className="text-sm text-gray-500">결과</h3> */}
-                    <div className="text-3xl font-bold tracking-widest mt-3">1234</div>
+                    <div className="text-3xl font-bold tracking-widest mt-3">{predictResult}</div>
                     <div className="text-lg">object : truck</div>
                 </div>
                 <div className="text-center p-2">
@@ -50,8 +50,8 @@ const MainCard = ({ resultTime, truckNumber, predictId }) => {
                             </select>
                         </div>
                         <p className="text-gray-600">분석 시각</p>
-                        <p>2023-12-30 14:46:22</p>
-                        {/* <p>{resultTime}</p> */}
+                        {/* <p>2023-12-30 14:46:22</p> */}
+                        <p>{resultTime}</p>
                     </div>
                 </div>
                 <div
