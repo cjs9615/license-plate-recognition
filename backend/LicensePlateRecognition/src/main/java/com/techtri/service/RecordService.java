@@ -56,7 +56,7 @@ public class RecordService {
 		else if(search.getSearchCondition().equals("number")) {
 			builder.and(qview.plateNumber.like("%"+search.getNumber()+"%"));
 		} else {
-			builder.and(qview.time.between(Timestamp.valueOf(search.getFromDate()), Timestamp.valueOf(search.getToDate())));
+			builder.and(qview.timestamp.between(Timestamp.valueOf(search.getFromDate()), Timestamp.valueOf(search.getToDate())));
 		}
 		return viewRepo.findAll(builder, pageable);
 	}

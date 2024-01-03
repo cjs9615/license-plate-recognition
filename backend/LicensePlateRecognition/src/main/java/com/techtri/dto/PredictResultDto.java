@@ -14,6 +14,5 @@ public class PredictResultDto {
 	private boolean isSuccess;
 	private int predictId;
 	private String predictResult;
-	private double confidenceScore;
 	private List<RegisteredCars> numberList;
 }

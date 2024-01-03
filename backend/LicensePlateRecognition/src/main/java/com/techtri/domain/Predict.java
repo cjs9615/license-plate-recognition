@@ -6,6 +6,8 @@ import java.util.Date;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,6 +31,7 @@ public class Predict {
 	private int seq;
 
 	@CreationTimestamp 
+	@JsonFormat(timezone = "Asia/Seoul")
 	private Timestamp time;
 	
 	private Boolean isSuccess; // 추론 결과

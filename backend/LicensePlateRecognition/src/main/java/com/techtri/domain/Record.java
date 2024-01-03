@@ -5,6 +5,8 @@ import java.util.Date;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,7 +30,8 @@ public class Record { // 입출차 기록T
 	private int seq;
 	
 	@CreationTimestamp 
-	private Timestamp time;
+	@JsonFormat(timezone = "Asia/Seoul")
+	private Timestamp timestamp;
 	private String status; // 입/출차 유형
 	
 	private int carId; // 등록차량 ID
