@@ -85,10 +85,9 @@ public class PredictService {
 		}
 		return null;
 	}
-
+	
 	@Transactional
-	public PredictResultDto predictLicensePlate(MultipartFile file) throws IOException {
-		String preImage = s3Service.uploadFiles(file, 0);
+	public PredictResultDto predictLicensePlate(String preImage) throws IOException {
 		RequestFlaskDto requestDto = RequestFlaskDto.builder().url(preImage).build();
 		ResponseFlaskDto responseDto = sendToFlask(requestDto);
 		
@@ -118,5 +117,10 @@ public class PredictService {
 					.predictResult(plateNumber).numberList(numberList).predictId(predict.getSeq()).build();
 
 		return result;
+	}
+	
+	public PredictResultDto predictLicensePlate2(MultipartFile file) throws IOException {
+		String preImage = s3Service.uploadFiles(file, 0);
+		return predictLicensePlate(preImage);
 	}
 }
