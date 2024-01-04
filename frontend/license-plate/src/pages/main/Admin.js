@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import SideBar from "../../components/comm/SideBar"
-import TruckInfo from "../../components/admin/TruckInfo";
-import PredLog from "../../components/admin/PredLog";
+import TruckInfo from "../../components/admin/truckInfo/TruckInfo";
+import PredLog from "../../components/admin/predLog/PredLog";
 import Dashboard from "../../components/admin/Dashboard";
 
 import { AiOutlineDatabase } from "react-icons/ai";
@@ -69,7 +69,7 @@ const Admin = () => {
                         <Dashboard bgColor="bg-[#FF9F1C]" title="전체 등록차량 수" value={totalCarCount} icon={<AiOutlineDatabase />} />
                         <Dashboard bgColor="bg-[#4360F0]" title="일일 등록차량 수" value={registeredCarCount} icon={<RiTruckLine />} />
                         <Dashboard bgColor="bg-[#FF6A6B]" title="일일 추론 횟수" value={dailyPred.fail + dailyPred.success} detail1={`성공 : ${dailyPred.success}`} detail2={`실패 : ${dailyPred.fail}`} icon={<MdDataSaverOff />} />
-                        <Dashboard bgColor="bg-[#4DCDC4]" title="월간 출입 통계" value={thisMonthRecord} icon={<VscGraph />} />
+                        <Dashboard bgColor="bg-[#4DCDC4]" title="월간 작업 통계" value={thisMonthRecord} icon={<VscGraph />} />
                     </div>
                 </div>
                 {
