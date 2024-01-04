@@ -66,10 +66,10 @@ const Main = () => {
                     setPredValue(data);
                     setMatchedData(data.numberList);
                     setResultTime(dateFormat(new Date()));
-                    isSuccessed(true);
+                    // isSuccessed(true);
                 } else {
                     setProgressStatus(false);
-                    isSuccessed(false);
+                    // isSuccessed(false);
                     // 실패했을때 처리하기
                     console.log("실패")
                 }
@@ -116,9 +116,9 @@ const Main = () => {
                             : ""
                     }
                 </div>
-                {/* <div>
-                    <Link to="/test">test</Link>
-                </div> */}
+                <div className="bg-yellow-100">
+                    <Link to="/test">WebSocketTest</Link>
+                </div>
             </div>
             {
                 modalOpen
