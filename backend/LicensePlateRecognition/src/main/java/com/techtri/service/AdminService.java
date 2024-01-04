@@ -22,16 +22,16 @@ import com.techtri.domain.QRegisteredCars;
 import com.techtri.domain.RegisteredCars;
 import com.techtri.domain.Search;
 import com.techtri.persistence.PredictRepository;
-import com.techtri.persistence.RecordRepository;
 import com.techtri.persistence.RegisteredCarsRepository;
+import com.techtri.persistence.WorkRecordRepository;
 
 @Service
 public class AdminService {
 	private RegisteredCarsRepository regiCarRepo;
 	private PredictRepository predictRepo;
-	private RecordRepository recordRepo;
+	private WorkRecordRepository recordRepo;
 	
-	public AdminService(RegisteredCarsRepository regiCarRepo, PredictRepository predictRepo, RecordRepository recordRepo) {
+	public AdminService(RegisteredCarsRepository regiCarRepo, PredictRepository predictRepo, WorkRecordRepository recordRepo) {
 		this.regiCarRepo = regiCarRepo;
 		this.predictRepo = predictRepo;
 		this.recordRepo = recordRepo;
@@ -89,7 +89,7 @@ public class AdminService {
 		BooleanBuilder builder = new BooleanBuilder();
 		
 		QRegisteredCars qcar = QRegisteredCars.registeredCars;
-		Pageable pageable = PageRequest.of(pageNo-1,10, Sort.Direction.DESC,"seq");
+		Pageable pageable = PageRequest.of(pageNo-1,10, Sort.Direction.DESC,"id");
 		
 		if(search.getSearchCondition().equals("total"))
 			return regiCarRepo.findAll(pageable);
@@ -104,10 +104,11 @@ public class AdminService {
 		BooleanBuilder builder = new BooleanBuilder();
 		
 		QPredict qpredict = QPredict.predict;
-		Pageable pageable = PageRequest.of(pageNo-1,10,Sort.Direction.DESC,"seq");
+		Pageable pageable = PageRequest.of(pageNo-1,10,Sort.Direction.DESC,"id");
 		
 		if(date.equals(""))
 			return predictRepo.findAll(pageable);
+		
 		String from = date+" 00:00:00";
 		String to = date+" 23:59:59";
 		builder.and(qpredict.time.between(Timestamp.valueOf(from), Timestamp.valueOf(to)));

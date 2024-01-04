@@ -94,15 +94,14 @@ public class PredictService {
 		Predict predict = predictRepo.save(Predict.builder()
 				.isSuccess(responseDto.isSuccess())
 				.number(responseDto.getResult()).comment(responseDto.getMessage()).build());
-
-		imagesRepo.save(Images.builder().type("pre-prediction").url(preImage).predictId(predict.getSeq()).build());
+		imagesRepo.save(Images.builder().type("pre-prediction").url(preImage).predict(predict).build());
 
 		if (!responseDto.isSuccess())
 			return PredictResultDto.builder().isSuccess(false).build();
 
 		String licensePlateImage = decodeFile(responseDto);
 		imagesRepo.save(
-				Images.builder().type("license-plate").url(licensePlateImage).predictId(predict.getSeq()).build());
+				Images.builder().type("license-plate").url(licensePlateImage).predict(predict).build());
 
 		
 		// result 값 DB검색
@@ -114,7 +113,7 @@ public class PredictService {
 		
 		PredictResultDto result = PredictResultDto.builder()
 					.licensePlateImage(licensePlateImage).isSuccess(responseDto.isSuccess())
-					.predictResult(plateNumber).numberList(numberList).predictId(predict.getSeq()).build();
+					.predictResult(plateNumber).numberList(numberList).predictId(predict.getId()).build();
 
 		return result;
 	}

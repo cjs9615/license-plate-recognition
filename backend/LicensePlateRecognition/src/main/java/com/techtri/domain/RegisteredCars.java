@@ -26,7 +26,7 @@ import lombok.ToString;
 public class RegisteredCars {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int seq;
+	private int id;
 	private String plateNumber;
 	
 	@DateTimeFormat(pattern="yyyy-MM-dd")

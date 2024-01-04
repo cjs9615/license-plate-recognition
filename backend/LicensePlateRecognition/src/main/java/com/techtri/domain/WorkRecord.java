@@ -12,6 +12,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,7 +26,7 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Record { // 입출차 기록T
+public class WorkRecord { // 입출차 기록T
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int seq;
@@ -32,16 +34,26 @@ public class Record { // 입출차 기록T
 	@CreationTimestamp 
 	@JsonFormat(timezone = "Asia/Seoul")
 	private Timestamp timestamp;
-	private String status; // 입/출차 유형
 	
-	private int carId; // 등록차량 ID
-	private String writer; // 기록 유저 ID
-	private int predictId; // 관련 추론 ID
+//	private int carId; // 등록차량 ID
+	@ManyToOne
+	@JoinColumn(name="car_id")
+	private RegisteredCars registeredCar;
+	
+//	private String writer; // 기록 유저 ID
+	@ManyToOne
+	@JoinColumn(name="member_id")
+	private Member member;
+	
+	//private int predictId; // 관련 추론 ID
+	@ManyToOne
+	@JoinColumn(name="predict_id")
+	private Predict predict;
 	
 	@Column(nullable = true)
 	private String comment; // 비고사항
 	
-	public void updateCarId(int carId) {
-		this.carId = carId;
+	public void updateCarId(RegisteredCars registerdCar) {
+		this.registeredCar = registerdCar;
 	}
 }

@@ -11,32 +11,30 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.querydsl.core.BooleanBuilder;
 import com.techtri.domain.Images;
 import com.techtri.domain.Predict;
 import com.techtri.domain.QRecordCarView;
-import com.techtri.domain.Record;
 import com.techtri.domain.RecordCarView;
 import com.techtri.domain.RegisteredCars;
 import com.techtri.domain.Search;
+import com.techtri.domain.WorkRecord;
 import com.techtri.persistence.ImagesRepository;
 import com.techtri.persistence.PredictRepository;
 import com.techtri.persistence.RecordCarViewRepository;
-import com.techtri.persistence.RecordRepository;
 import com.techtri.persistence.RegisteredCarsRepository;
+import com.techtri.persistence.WorkRecordRepository;
 
 @Service
 public class RecordService {
 	private RecordCarViewRepository viewRepo;
-	private RecordRepository recordRepo;
+	private WorkRecordRepository recordRepo;
 	private ImagesRepository imageRepo;
 	private PredictRepository predRepo;
 	private RegisteredCarsRepository regiCarRepo;
 	
-	public RecordService(RecordCarViewRepository viewRepo, RecordRepository recordRepo, ImagesRepository imageRepo
+	public RecordService(RecordCarViewRepository viewRepo, WorkRecordRepository recordRepo, ImagesRepository imageRepo
 				, RegisteredCarsRepository regiCarRepo, PredictRepository predRepo) {
 		this.viewRepo = viewRepo;
 		this.recordRepo = recordRepo;
@@ -67,13 +65,13 @@ public class RecordService {
 			return ResponseEntity.badRequest().build();
 		
 		RecordCarView detail = viewRepo.findById(recordNo).get();
-
-		Record record = recordRepo.findById(recordNo).get();
-		List<Images> imageUrl = imageRepo.findByPredictId(record.getPredictId());
 		
+		WorkRecord record = recordRepo.findById(recordNo).get();
+		
+		List<Images> imageUrl = imageRepo.findByPredictId(record.getPredict().getId());
+	
 		data.put("detail", detail);
 		data.put("images", imageUrl);
-		
 		return ResponseEntity.ok().body(data);
 	}
 	
@@ -92,8 +90,9 @@ public class RecordService {
 	
 	public ResponseEntity<?> updateRecord(int recordId,int carId) {
 		if(recordRepo.findById(recordId).isPresent()) {
-			Record record = recordRepo.findById(recordId).get();
-			record.updateCarId(carId);
+			WorkRecord record = recordRepo.findById(recordId).get();
+			RegisteredCars regiCar = regiCarRepo.findById(carId).get();
+			record.updateCarId(regiCar);
 			recordRepo.save(record);
 			return ResponseEntity.ok().build();
 		}
