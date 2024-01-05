@@ -1,14 +1,14 @@
 import { LuCopyPlus } from "react-icons/lu";
 
 const MainTable = ({ data, setTruckNumber }) => {
-    const selTruck = (seq, plateNumber) => {
-        const selData = [seq, plateNumber];
+    const selTruck = (id, plateNumber) => {
+        const selData = [id, plateNumber];
         setTruckNumber(selData);
     }
     const tbodyItem = data.map((item, idx) => {
 
         return (
-            <tr key={item.seq} onClick={() => selTruck(item.seq, item.plateNumber)} className="transition-all border-b even:bg-gray-100 hover:bg-[#ffd3af] cursor-pointer">
+            <tr key={item.id} onClick={() => selTruck(item.id, item.plateNumber)} className="transition-all border-b even:bg-gray-100 hover:bg-[#ffd3af] cursor-pointer">
                 <td>{idx + 1}</td>
                 <td>{item.plateNumber}</td>
                 <td>{item.regiDate}</td>

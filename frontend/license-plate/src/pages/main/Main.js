@@ -3,7 +3,6 @@ import SideBar from "../../components/comm/SideBar"
 import MainModal from "../../components/main/MainModal";
 import MainTable from "../../components/main/MainTable";
 import MainCard from "../../components/main/MainCard";
-import testData from "../../testData.json";
 import MainInput from "../../components/main/MainInput";
 import MainResult from "../../components/main/MainResult";
 import { Link } from "react-router-dom";
@@ -19,28 +18,9 @@ const Main = () => {
     const [progressStatus, setProgressStatus] = useState(false);
     const [predValue, setPredValue] = useState();
     const [matchedData, setMatchedData] = useState();
-    const [resultTime, setResultTime] = useState();
-    const [isSuccessed, setIsSuccessed] = useState();
 
     // 선택된 차량번호
     const [truckNumber, setTruckNumber] = useState();
-
-    // 날짜 시간
-    function dateFormat(date) {
-        let month = date.getMonth() + 1;
-        let day = date.getDate();
-        let hour = date.getHours();
-        let minute = date.getMinutes();
-        let second = date.getSeconds();
-
-        month = month >= 10 ? month : '0' + month;
-        day = day >= 10 ? day : '0' + day;
-        hour = hour >= 10 ? hour : '0' + hour;
-        minute = minute >= 10 ? minute : '0' + minute;
-        second = second >= 10 ? second : '0' + second;
-
-        return date.getFullYear() + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
-    }
 
     // 이미지 파일 전송
     const predictImage = () => {
@@ -65,11 +45,9 @@ const Main = () => {
                     console.log("데이터: ", data);
                     setPredValue(data);
                     setMatchedData(data.numberList);
-                    setResultTime(dateFormat(new Date()));
-                    // isSuccessed(true);
+                    
                 } else {
                     setProgressStatus(false);
-                    // isSuccessed(false);
                     // 실패했을때 처리하기
                     console.log("실패")
                 }
@@ -104,7 +82,14 @@ const Main = () => {
                     {/* <MainCard resultTime={resultTime} truckNumber={truckNumber} predictId="29" /> */}
                     {
                         predValue && predValue.predictResult
-                            ? <MainCard resultTime={resultTime} truckNumber={truckNumber} predictResult={predValue.predictResult} predictId={predValue.predictId} />
+                            ? <MainCard 
+                                truckNumber={truckNumber} 
+                                predictResult={predValue.predictResult} 
+                                predictId={predValue.predictId} 
+                                time={predValue.time}
+                                setImgUrl={setImgUrl}
+                                setPredValue={setPredValue}
+                                setMatchedData={setMatchedData}/>
                             : ""
                     }
 
