@@ -1,18 +1,28 @@
 import { useEffect, useRef, useState } from "react"
-import testData from "../../testData.json"
 import { MdAddToPhotos } from "react-icons/md";
 import Pagination from "react-js-pagination";
-import './react-paginate.css';
+import '../react-paginate.css';
 import TruckList from "./TruckList";
+import AddTruckModal from "./AddTruckModal";
 
 const TruckInfo = () => {
   // 차량번호
   const numberRef = useRef();
+  
   // 검색 결과
   const [searchData, setSearchData] = useState([]);
+  
   // 페이징
   const [page, setPage] = useState(1);
   const [totalNum, setTotalNum] = useState(0);
+
+  // 차량 추가 모달
+  const [addModalOpen, setAddModalOpen] = useState(false);
+
+  // 모달 오픈
+  const handleAddModalOpen = () => {
+    setAddModalOpen(true);
+  }
 
   const searchTruck = () => {
 
@@ -113,6 +123,7 @@ const TruckInfo = () => {
       <div className="flex justify-between items-center">
         <h2 className="text-lg font-bold">차량관리</h2>
         <div
+          onClick={handleAddModalOpen}
           className="flex justify-center gap-1 items-center rounded-full transition-all text-[#008E93] active:text-[#103c49] md:active:text-white md:bg-[#008E93] md:active:bg-[#103c49] md:text-white md:w-[100px] h-[28px]  cursor-pointer">
           <MdAddToPhotos className="text-3xl md:text-base" />
           <p className="hidden md:block text-sm">ADD</p>
@@ -144,6 +155,11 @@ const TruckInfo = () => {
           pageRangeDisplayed={5}
           onChange={handlePageChange} />
       </div>
+      {
+        addModalOpen
+        ? <AddTruckModal setAddModalOpen={setAddModalOpen} />
+        : ""
+      }
     </div>
   )
 }

@@ -19,13 +19,30 @@ const PredLog = () => {
   }
 
   const searchPredLog = () => {
-    // 초기화는 어떻게 하지..
-    if (targetDate.current.value === "") {
-      alert("날짜를 선택해주세요");
-      return;
-    }
+    fetch(`http://10.125.121.216:8080/api/techtri/admin/predict/${page}?date=${targetDate.current.value}`)
+      .then(resp => resp.json())
+      .then(data => {
+        setPage(1);
+        setPredLogData(data.content);
+        setTotalNum(data.totalElements);
+      })
+      .catch(err => console.log(err));
 
   }
+
+  // 페이지 이동할 때
+  useEffect(() => {
+
+    fetch(`http://10.125.121.216:8080/api/techtri/admin/predict/${page}?date=${targetDate.current.value}`)
+      .then(resp => resp.json())
+      .then(data => {
+        console.log("추론기록 데이터 ", data);
+        setPredLogData(data.content);
+        setTotalNum(data.totalElements);
+      })
+      .catch(err => console.log(err));
+
+  }, [page])
 
   useEffect(() => {
     fetch('http://10.125.121.216:8080/api/techtri/admin/predict/1?date=')
