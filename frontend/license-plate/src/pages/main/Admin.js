@@ -58,8 +58,8 @@ const Admin = () => {
                         }
                         {
                             predLogClick
-                                ? <p className="text-[#2E3D4E] font-bold cursor-pointer">추론결과</p>
-                                : <button onClick={showLog} className="text-[#A1A1A1] font-bold hover:underline">추론결과</button>
+                                ? <p className="text-[#2E3D4E] font-bold cursor-pointer">추론기록</p>
+                                : <button onClick={showLog} className="text-[#A1A1A1] font-bold hover:underline">추론기록</button>
                         }
                     </div>
                 </div>
