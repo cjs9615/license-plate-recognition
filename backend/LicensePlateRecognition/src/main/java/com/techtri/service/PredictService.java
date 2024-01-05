@@ -118,14 +118,13 @@ public class PredictService {
 		
 		PredictResultDto result = PredictResultDto.builder()
 					.licensePlateImage(licensePlateImage).objectImage(truckImage).isSuccess(responseDto.isSuccess())
-					.predictResult(plateNumber).numberList(numberList).predictId(predict.getId()).build();
+					.predictResult(plateNumber).numberList(numberList).time(predict.getTime()).predictId(predict.getId()).build();
 
 		return result;
 	}
 	
 	public PredictResultDto predictLicensePlate2(MultipartFile file) throws IOException {
-		//String preImage = s3Service.uploadFiles(file, 0);
-		String preImage = "https://techtri-s3-bucket.s3.ap-northeast-2.amazonaws.com/pre-prediction-images/0ec5005c-ac50-4212-9a8b-b5ce63d3fb0e-7962.jpg";
+		String preImage = s3Service.uploadFiles(file, 0);
 		return predictLicensePlate(preImage);
 	}
 }

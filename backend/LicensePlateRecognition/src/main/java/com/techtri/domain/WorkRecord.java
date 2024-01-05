@@ -31,7 +31,6 @@ public class WorkRecord { // 입출차 기록T
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int seq;
 	
-	@CreationTimestamp 
 	@JsonFormat(timezone = "Asia/Seoul")
 	private Timestamp timestamp;
 	

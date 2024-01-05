@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.querydsl.core.BooleanBuilder;
 import com.techtri.domain.Images;
+import com.techtri.domain.Member;
 import com.techtri.domain.Predict;
 import com.techtri.domain.QRecordCarView;
 import com.techtri.domain.RecordCarView;
@@ -21,6 +22,7 @@ import com.techtri.domain.RegisteredCars;
 import com.techtri.domain.Search;
 import com.techtri.domain.WorkRecord;
 import com.techtri.persistence.ImagesRepository;
+import com.techtri.persistence.MemberRepository;
 import com.techtri.persistence.PredictRepository;
 import com.techtri.persistence.RecordCarViewRepository;
 import com.techtri.persistence.RegisteredCarsRepository;
@@ -33,14 +35,16 @@ public class RecordService {
 	private ImagesRepository imageRepo;
 	private PredictRepository predRepo;
 	private RegisteredCarsRepository regiCarRepo;
+	private MemberRepository memberRepo;
 	
 	public RecordService(RecordCarViewRepository viewRepo, WorkRecordRepository recordRepo, ImagesRepository imageRepo
-				, RegisteredCarsRepository regiCarRepo, PredictRepository predRepo) {
+				, RegisteredCarsRepository regiCarRepo, PredictRepository predRepo, MemberRepository memberRepo) {
 		this.viewRepo = viewRepo;
 		this.recordRepo = recordRepo;
 		this.imageRepo = imageRepo;
 		this.predRepo = predRepo;
 		this.regiCarRepo = regiCarRepo;
+		this.memberRepo = memberRepo;
 	}
 	
 	public Page<RecordCarView> getRecordList(int pageNo, Search search) {
@@ -68,8 +72,9 @@ public class RecordService {
 		
 		WorkRecord record = recordRepo.findById(recordNo).get();
 		
-		List<Images> imageUrl = imageRepo.findByPredictId(record.getPredict().getId());
+		List<Images> imageUrl = imageRepo.findByPredictIdAndTypeContaining(record.getPredict().getId(),"pre-prediction");
 	
+		
 		data.put("detail", detail);
 		data.put("images", imageUrl);
 		return ResponseEntity.ok().body(data);
@@ -98,5 +103,18 @@ public class RecordService {
 		}
 		
 		return ResponseEntity.badRequest().build();
+	}
+	
+	public ResponseEntity<?> createWorkRecord(int carId, int predictId, String writer) {
+		RegisteredCars car = regiCarRepo.findById(carId).get();
+		Predict predict = predRepo.findById(predictId).get();
+		Member member = memberRepo.findById(writer).get();
+		
+		WorkRecord workRecord = WorkRecord.builder().registeredCar(car)
+				.timestamp(predict.getTime()).predict(predict).member(member).build();
+		
+		recordRepo.save(workRecord);
+		
+		return ResponseEntity.ok().build();
 	}
 }
