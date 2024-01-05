@@ -6,7 +6,7 @@ import SignUp from './pages/member/SignUp';
 import Main from './pages/main/Main';
 import Search from './pages/main/Search';
 import Admin from './pages/main/Admin';
-import Test from './pages/main/Test';
+import WebSocketMain from './pages/main/WebSocketMain';
 
 function App() {
   return (
@@ -16,10 +16,10 @@ function App() {
           <Routes>
             <Route path='/' element={<Login />}></Route>
             <Route path='/signUp' element={<SignUp />}></Route>
-            <Route path='/main' element={<Main />}></Route>
+            <Route path='/main' element={<WebSocketMain />}></Route>
+            <Route path='/test' element={<Main />}></Route>
             <Route path='/search' element={<Search />}></Route>
             <Route path='/admin' element={<Admin />}></Route>
-            <Route path='/test' element={<Test />}></Route>
           </Routes>
         </RecoilRoot>
       </main>

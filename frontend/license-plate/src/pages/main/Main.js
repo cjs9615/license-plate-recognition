@@ -45,7 +45,7 @@ const Main = () => {
                     console.log("데이터: ", data);
                     setPredValue(data);
                     setMatchedData(data.numberList);
-                    
+
                 } else {
                     setProgressStatus(false);
                     // 실패했을때 처리하기
@@ -60,8 +60,9 @@ const Main = () => {
         <div className="grow flex">
             <SideBar />
             <div className="w-[80%] px-[1rem] md:px-[6rem] md:mt-[1.5rem]">
-                <div className="border-b-2 border-black py-[0.5rem]">
+                <div className="flex justify-between items-center border-b-2 border-black py-[0.5rem]">
                     <h1 className="text-[24px] font-bold">MAIN</h1>
+                    <Link to="/main"><button>WebSocket</button></Link>
                 </div>
                 <div className="flex gap-4 flex-col lg:flex-row w-full mt-[1rem] h-[800px] lg:h-[400px]">
                     <MainInput
@@ -82,14 +83,14 @@ const Main = () => {
                     {/* <MainCard resultTime={resultTime} truckNumber={truckNumber} predictId="29" /> */}
                     {
                         predValue && predValue.predictResult
-                            ? <MainCard 
-                                truckNumber={truckNumber} 
-                                predictResult={predValue.predictResult} 
-                                predictId={predValue.predictId} 
+                            ? <MainCard
+                                truckNumber={truckNumber}
+                                predictResult={predValue.predictResult}
+                                predictId={predValue.predictId}
                                 time={predValue.time}
                                 setImgUrl={setImgUrl}
                                 setPredValue={setPredValue}
-                                setMatchedData={setMatchedData}/>
+                                setMatchedData={setMatchedData} />
                             : ""
                     }
 
@@ -100,9 +101,6 @@ const Main = () => {
                             <MainTable data={matchedData} setTruckNumber={setTruckNumber} />
                             : ""
                     }
-                </div>
-                <div className="bg-yellow-100">
-                    <Link to="/test">WebSocketTest</Link>
                 </div>
             </div>
             {

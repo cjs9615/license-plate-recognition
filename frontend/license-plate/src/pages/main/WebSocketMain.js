@@ -3,9 +3,9 @@ import { useEffect, useRef, useState } from "react"
 import { FiCamera } from "react-icons/fi";
 import loadingGIF from "../../images/loadingIcon.gif"
 import { AiOutlinePicture } from "react-icons/ai";
-import { LuCopyPlus } from "react-icons/lu";
 import MainTable from "../../components/main/MainTable"
 import MainCard from "../../components/main/MainCard";
+import { Link } from "react-router-dom";
 
 const Test = () => {
     const webSocket = useRef(null);
@@ -29,7 +29,6 @@ const Test = () => {
         }
 
         webSocket.current.onmessage = (event) => {
-            // console.log("message : ", JSON.parse(event.data));
             console.log("이벤트 : ", JSON.parse(event.data));
             if (JSON.parse(event.data).type === "pre-prediction") {
                 setPredValue();
@@ -50,8 +49,9 @@ const Test = () => {
         <div className="grow flex">
             <SideBar />
             <div className="w-[80%] px-[1rem] md:px-[6rem] md:mt-[1.5rem]">
-                <div className="border-b-2 border-black py-[0.5rem]">
-                    <h1 className="text-[24px] font-bold">MAIN - WebSocket</h1>
+                <div className="flex justify-between items-center border-b-2 border-black py-[0.5rem]">
+                    <h1 className="text-[24px] font-bold">MONITORING</h1>
+                    <Link to="/test"><button>직접입력</button></Link>
                 </div>
                 <div className="flex gap-4 flex-col lg:flex-row w-full mt-[1rem] h-[800px] lg:h-[400px]">
                     {/* INPUT */}
