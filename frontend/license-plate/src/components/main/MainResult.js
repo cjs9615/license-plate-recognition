@@ -2,7 +2,7 @@
 import loadingGIF from "../../images/loadingIcon.gif";
 import { AiOutlinePicture } from "react-icons/ai";
 
-const MainResult = ({imgUrl, predValue, progressStatus}) => {
+const MainResult = ({ predValue, progressStatus}) => {
     return (
         <div className="w-full lg:w-[50%] h-[400px] lg:h-full lg:p-2">
             <h2 className="text-lg font-bold">RESULT</h2>
@@ -11,7 +11,7 @@ const MainResult = ({imgUrl, predValue, progressStatus}) => {
                     <div className="flex justify-center items-center bg-[#D9D9D9] w-full h-full m-auto">
                         {
                             predValue && predValue
-                                ? <img className="w-full h-full object-fill" src={`${imgUrl}`} alt="truck" ></img>
+                                ? <img className="w-full h-full object-fill" src={`${predValue.objectImage}`} alt="truck" ></img>
                                 : <div className="flex flex-col">
                                     {
                                         progressStatus

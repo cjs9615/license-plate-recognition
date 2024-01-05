@@ -1,8 +1,6 @@
-import { useRef } from "react";
 
-const MainCard = ({ resultTime, truckNumber, predictResult, predictId }) => {
-    // 입출차 유형
-    const entryType = useRef();
+const MainCard = ({ truckNumber, predictResult, predictId, time, setImgUrl, setPredValue, setMatchedData }) => {
+
 
     // 등록하기 버튼 클릭
     const submitClick = () => {
@@ -12,15 +10,26 @@ const MainCard = ({ resultTime, truckNumber, predictResult, predictId }) => {
             return;
         }
 
-        const regiData = {
-            carId: truckNumber[0],
-            predictId: predictId,
-            status: entryType.current.value,
-            time: "2023-12-30 14:46:22",
-            writer: localStorage.getItem("id"),
-        }
+        const loginUser = localStorage.getItem("id");
 
-        console.log(regiData);
+        const data = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        };
+
+        fetch(`http://10.125.121.216:8080/api/techtri/record/work/${truckNumber[0]}/${predictId}?writer=${loginUser}`, data)
+            .then(resp => {
+                console.log(resp)
+                if (resp.status === 200) {
+                    alert("등록 완료")
+                    setImgUrl();
+                    setPredValue();
+                    setMatchedData();
+                }
+            })
+            .catch(err => console.log(err));
     }
 
     return (
@@ -38,11 +47,11 @@ const MainCard = ({ resultTime, truckNumber, predictResult, predictId }) => {
                         <p className="text-gray-600">선택된 차량번호</p>
                         {
                             truckNumber && truckNumber
-                                ? <p><span className="">{truckNumber}</span></p>
+                                ? <p><span className="">{truckNumber[1]}</span></p>
                                 : <p>선택 안 함</p>
                         }
                         <p className="text-gray-600">작업 시각</p>
-                        <p>{resultTime}</p>
+                        <p>{time}</p>
                     </div>
                 </div>
                 <div

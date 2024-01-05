@@ -1,10 +1,12 @@
 import { Link, useLocation, useNavigate } from "react-router-dom"
-import { FaTable, FaListUl } from "react-icons/fa";
+import { FaListUl } from "react-icons/fa";
 import { FaScrewdriverWrench } from "react-icons/fa6";
 import { FaSignOutAlt } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { LoginStateAtom } from "../../pages/member/LoginStateAtom";
+import { FaComputer } from "react-icons/fa6";
+import logoWhite from "../../images/logo_white.png";
 
 const SideBar = () => {
     const navigate = useNavigate();
@@ -12,7 +14,7 @@ const SideBar = () => {
 
     const [menuItems, setMenuItems] = useState();
     const menuList = [
-        ["/main", "MAIN", <FaTable />],
+        ["/main", "MONITORING", <FaComputer />],
         ["/search", "SEARCH", <FaListUl />],
         ["/admin", "ADMIN", <FaScrewdriverWrench />]
     ];
@@ -67,8 +69,8 @@ const SideBar = () => {
 
     return (
         <aside className="relative bg-[#2E3D4E] text-white w-[79.2px] md:w-[249px] h-full">
-            <div className="flex justify-center h-[150px]">
-                <h1 className="text-xl m-auto">테스트</h1>
+            <div className="hidden md:flex justify-center h-[150px] px-12">
+                <img src={logoWhite} className="object-contain" alt="logo"></img>
             </div>
             <div>
                 {menuItems}
