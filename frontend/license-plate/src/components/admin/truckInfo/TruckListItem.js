@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-const TruckListItem = ({seq, plateNumber, regiDate, status, page, idx}) => {
+const TruckListItem = ({id, plateNumber, regiDate, status, page, idx}) => {
     const [isActive, setIsActive] = useState(status);
 
     const handleActive = (e) => {
@@ -8,7 +8,7 @@ const TruckListItem = ({seq, plateNumber, regiDate, status, page, idx}) => {
     }
 
     return (
-        <tr key={seq} className="bg-white border-b ">
+        <tr key={id} className="bg-white border-b ">
             <td className="px-6 py-4 hidden md:block">{idx + (10 * (page - 1)) + 1}</td>
             <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
                 {plateNumber}

@@ -27,7 +27,7 @@ const TruckList = ({ searchData, page }) => {
                     </thead>
                     <tbody>
                         {
-                            searchData && searchData.map((item, idx) => <TruckListItem key={`data${idx}`} seq={item.seq} plateNumber={item.plateNumber} regiDate={item.regiDate} status={item.status} page={page} idx={idx}/> )
+                            searchData && searchData.map((item, idx) => <TruckListItem key={`data${idx}`} id={item.id} plateNumber={item.plateNumber} regiDate={item.regiDate} status={item.status} page={page} idx={idx}/> )
                         }
                     </tbody>
                 </table>
