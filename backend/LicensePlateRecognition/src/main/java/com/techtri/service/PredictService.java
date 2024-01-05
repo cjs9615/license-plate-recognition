@@ -68,17 +68,17 @@ public class PredictService {
 		return responseDto;
 	}
 
-	private String decodeFile(ResponseFlaskDto dto) {
-		byte[] imageBytes = Base64.getDecoder().decode(dto.getImage());
+	private String decodeFile(String imageByte, ResponseFlaskDto dto, int category) {
+		byte[] imageBytes = Base64.getDecoder().decode(imageByte);
 		try {
 			ByteArrayInputStream inputStream = new ByteArrayInputStream(imageBytes);
 			BufferedImage image = ImageIO.read(inputStream);
 
-			File outputfile = new File("license_plate.jpg");
+			File outputfile = new File("temp_image.jpg");
 			ImageIO.write(image, dto.getFormat(), outputfile);
 
 			JavaFileToMultipartFile mFile = new JavaFileToMultipartFile(outputfile);
-			return s3Service.uploadFiles(mFile, 1);
+			return s3Service.uploadFiles(mFile, category);
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -99,27 +99,33 @@ public class PredictService {
 		if (!responseDto.isSuccess())
 			return PredictResultDto.builder().isSuccess(false).build();
 
-		String licensePlateImage = decodeFile(responseDto);
+		String licensePlateImage = decodeFile(responseDto.getLicense_plate_image(), responseDto,1);
+		String truckImage = decodeFile(responseDto.getTruck_image(), responseDto,2);
+		
 		imagesRepo.save(
 				Images.builder().type("license-plate").url(licensePlateImage).predict(predict).build());
+		imagesRepo.save(
+				Images.builder().type("object-image").url(truckImage).predict(predict).build());
 
 		
 		// result 값 DB검색
 		String plateNumber= responseDto.getResult(); 
+		plateNumber = plateNumber.replaceAll("[^0-9\s]", "");	
 		if(plateNumber.length() > 4)
 			plateNumber = plateNumber.substring(plateNumber.length()-4, plateNumber.length());
-		plateNumber = plateNumber.replaceAll("[^0-9]", "");		
+		plateNumber = plateNumber.replaceAll(" ", "");
 		List<RegisteredCars> numberList = regiCarRepo.findByPlateNumberContainingAndStatus(plateNumber, true);
 		
 		PredictResultDto result = PredictResultDto.builder()
-					.licensePlateImage(licensePlateImage).isSuccess(responseDto.isSuccess())
+					.licensePlateImage(licensePlateImage).objectImage(truckImage).isSuccess(responseDto.isSuccess())
 					.predictResult(plateNumber).numberList(numberList).predictId(predict.getId()).build();
 
 		return result;
 	}
 	
 	public PredictResultDto predictLicensePlate2(MultipartFile file) throws IOException {
-		String preImage = s3Service.uploadFiles(file, 0);
+		//String preImage = s3Service.uploadFiles(file, 0);
+		String preImage = "https://techtri-s3-bucket.s3.ap-northeast-2.amazonaws.com/pre-prediction-images/0ec5005c-ac50-4212-9a8b-b5ce63d3fb0e-7962.jpg";
 		return predictLicensePlate(preImage);
 	}
 }

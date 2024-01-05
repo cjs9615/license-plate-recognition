@@ -13,6 +13,7 @@ import lombok.Getter;
 @Builder
 public class PredictResultDto {
 	private String licensePlateImage;
+	private String objectImage;
 	private boolean isSuccess;
 	private int predictId;
 	private String predictResult;
