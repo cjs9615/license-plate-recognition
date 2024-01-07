@@ -2,7 +2,6 @@ package com.techtri.service;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.Date;
 import java.util.HashMap;
@@ -13,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.querydsl.core.BooleanBuilder;
@@ -125,5 +125,15 @@ public class AdminService {
 		map.put("todayRegisteredCarCount", getTodayRegisteredCar()); // 일일 등록 차량 수
 		
 		return map;
+	}
+	
+	public ResponseEntity<?> registerCar(String plateNumber) {
+		if(!regiCarRepo.findByPlateNumberContaining(plateNumber).isEmpty())
+			return ResponseEntity.badRequest().build();
+		RegisteredCars regiCar = RegisteredCars.builder().plateNumber(plateNumber).regiDate(new Date()).status(true)
+			.four_digits(plateNumber.substring(plateNumber.length()-4, plateNumber.length())).build();
+		regiCarRepo.save(regiCar);
+		
+		return ResponseEntity.ok().build();
 	}
 }

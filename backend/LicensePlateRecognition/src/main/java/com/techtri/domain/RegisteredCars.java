@@ -1,6 +1,6 @@
 package com.techtri.domain;
 
-import java.sql.Date;
+import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -35,4 +35,5 @@ public class RegisteredCars {
 	private Date regiDate;
 	
 	private boolean status;
+	private String four_digits;
 }
