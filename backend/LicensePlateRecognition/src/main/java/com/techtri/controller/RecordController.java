@@ -45,4 +45,9 @@ public class RecordController {
 		return recordService.updateRecord(recordId, carId);
 	}
 	
+	@PostMapping("/api/techtri/record/work/{carId}/{predictId}")
+	public ResponseEntity<?> createWorkRecord(@PathVariable Integer carId, @PathVariable Integer predictId,
+			@RequestParam String writer) {
+		return recordService.createWorkRecord(carId, predictId, writer);
+	}
 }

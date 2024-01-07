@@ -1,7 +1,9 @@
 package com.techtri.domain;
 
-import java.sql.Date;
+import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,12 +26,14 @@ import lombok.ToString;
 public class RegisteredCars {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int seq;
+	private int id;
 	private String plateNumber;
 	
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date regiDate;
 	
 	private boolean status;
+	private String four_digits;
 }

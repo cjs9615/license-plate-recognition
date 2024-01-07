@@ -5,10 +5,10 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.techtri.domain.Record;
+import com.techtri.domain.WorkRecord;
 
-public interface RecordRepository extends JpaRepository<Record, Integer> {
-	@Query(value="select count(*) from record "
+public interface WorkRecordRepository extends JpaRepository<WorkRecord, Integer> {
+	@Query(value="select count(*) from work_record "
 			+ "where timestamp between %?1% and %?2%", nativeQuery = true)
 	List<Object[]> getRecordCount(String startDate, String endDate);
 }
