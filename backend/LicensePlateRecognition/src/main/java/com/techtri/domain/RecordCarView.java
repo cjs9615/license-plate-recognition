@@ -22,7 +22,6 @@ public class RecordCarView {
 	private String writer;
 	@JsonFormat(timezone = "Asia/Seoul")
 	private Timestamp timestamp;
-	private String status;
 	private String plateNumber;
 	private int predictId;
 	private String comment; 

@@ -3,6 +3,7 @@ package com.techtri.controller;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,5 +37,10 @@ public class AdminController {
 	@GetMapping("/api/techtri/admin/dashboard")
 	public Map<String, Object> getDashBoardInformation() {
 		return adminService.getDashBoardInformation();
+	}
+	
+	@PostMapping("/api/techtri/admin/register/car")
+	public ResponseEntity<?> registerCar(@RequestParam String plateNumber) {
+		return adminService.registerCar(plateNumber);
 	}
 }

@@ -14,7 +14,8 @@ import lombok.ToString;
 @NoArgsConstructor
 public class ResponseFlaskDto {
 	private String format;
-	private String image;
+	private String license_plate_image;
+	private String truck_image;
 	private String result;
 	private boolean success;
 	private String message;
