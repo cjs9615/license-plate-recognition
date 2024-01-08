@@ -38,50 +38,45 @@ public class AdminService {
 	}
 	
 	private String getTodayRegisteredCar() {		
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		Date now = new Date();
-		String today = format.format(now);
-		
-		String count = null;
-		List<Object[]> list = regiCarRepo.getTodayRegisteredCar(today); 
-		for(Object o[] : list) {
-			count = Long.toString((long)o[0]);
-		}
-		
-		return count;
+		List<Object[]> list = regiCarRepo.countByRegiDate(new Date());
+		return Long.toString((long) list.get(0)[0]);
 	}
 	
 	private String getRecordCount() {
 		YearMonth today = YearMonth.now();
 		String start = today.atDay(1).toString();
 		String end = today.atEndOfMonth().toString();
+				
+		Timestamp startTimestamp = Timestamp.valueOf(start+" 00:00:00");
+		Timestamp endTimestamp = Timestamp.valueOf(end+" 23:59:59");
 		
-		String recordCount = null;
+		List<Object[]> list = recordRepo.countByTimestampBetween(
+				startTimestamp, endTimestamp);
 		
-		List<Object[]> list = recordRepo.getRecordCount(start, end);
-		for(Object o[] : list) {
-			recordCount = Long.toString((long)o[0]);
-		}
-		
-		return recordCount;
+		return Long.toString((long) list.get(0)[0]);
 	}
+	
+	private Long getPredictionCountByStatus(boolean isSuccess, Timestamp start, Timestamp end) {
+        List<Object[]> result = predictRepo.countByIsSuccessAndTimeBetween(isSuccess, start, end);
+        if (!result.isEmpty()) {
+            return (Long) result.get(0)[0];
+        }
+        return 0L;
+    }
 	
 	private Map<String, Object> getTodayPredictResult() {
 		Map<String, Object> map = new HashMap<>();
-		map.put("success", 0);
-		map.put("fail", 0);
-		
+
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date now = new Date();
 		String today = format.format(now);
 		
-		List<Object[]> list = predictRepo.getTodayPredictResult(today+" 00:00:00", today+" 23:59:59");
-		for(Object o[] : list) {
-			if((boolean)o[0])
-				map.put("success", (Long)o[1]);
-			else
-				map.put("fail", (Long)o[1]);
-		}
+		Timestamp start = Timestamp.valueOf(today+" 00:00:00");
+		Timestamp end = Timestamp.valueOf(today+" 23:59:59");
+		
+		map.put("success", getPredictionCountByStatus(true, start, end));
+		map.put("fail", getPredictionCountByStatus(false, start, end));
+
 		return map;
 	}
 	
