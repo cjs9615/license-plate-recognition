@@ -5,7 +5,7 @@ const ResultTable = ({ data, setSelTruck }) => {
     const [selItem, setSelItem] = useState([]);
 
     return (
-        <div className="rounded-b-md h-[250px] lg:h-[550px]">
+        <div className="rounded-b-md h-[250px] lg:h-[550px] overflow-auto">
             <table className="table-auto w-full">
                 <thead className="text-center bg-gray-100 ">
                     <tr className="text-sm ">
