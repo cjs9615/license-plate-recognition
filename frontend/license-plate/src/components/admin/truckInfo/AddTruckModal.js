@@ -24,13 +24,20 @@ const AddTruckModal = ({ setAddModalOpen }) => {
             numberPlateInputRef.current.focus();
             return;
         }
+        const url = `http://10.125.121.216:8080/api/techtri/admin/register/car?plateNumber=${numberPlateInputRef.current.value}`;
 
-        // setAddModalOpen(false);
-        // alert("차량이 등록되었습니다.")
-        // window.location.replace("/admin");
-        console.log(numberPlateInputRef.current.value);
-        console.log(getToday());
-
+        fetch(url,{method: "POST"})
+        .then(resp => {
+            if (resp.status === 200) {
+                setAddModalOpen(false);
+                alert("차량이 등록되었습니다.")
+                window.location.replace("/admin");
+            } else {
+                alert("이미 등록된 차량입니다.");
+                numberPlateInputRef.current.focus();
+            }
+        })
+        .catch(err => console.log(err));
     }
 
     const handleModal = () => {

@@ -34,7 +34,6 @@ const Admin = () => {
         fetch('http://10.125.121.216:8080/api/techtri/admin/dashboard')
         .then(resp => resp.json())
         .then(data => {
-            // console.log(data.todayPredict);
             setTotalCarCount(data.totalCarCount);
             setRegisteredCarCount(data.todayRegisteredCarCount);
             setDailyPred(data.todayPredict);
@@ -58,8 +57,8 @@ const Admin = () => {
                         }
                         {
                             predLogClick
-                                ? <p className="text-[#2E3D4E] font-bold cursor-pointer">추론기록</p>
-                                : <button onClick={showLog} className="text-[#A1A1A1] font-bold hover:underline">추론기록</button>
+                            ? <p className="text-[#2E3D4E] font-bold cursor-pointer">추론기록</p>
+                            : <button onClick={showLog} className="text-[#A1A1A1] font-bold hover:underline">추론기록</button>
                         }
                     </div>
                 </div>
