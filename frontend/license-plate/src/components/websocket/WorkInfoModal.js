@@ -9,6 +9,7 @@ const WorkInfoModal = ({ setOpenModal, carId, predId, time, writer, setIsWaiting
         fetch(`http://10.125.121.216:8080/api/techtri/record/work/${carId[0]}/${predId}?writer=${writer}`, {
             method: 'POST',
             headers: {
+                Authorization: localStorage.getItem("token"),
                 'Content-Type': 'application/json'
             },
         })

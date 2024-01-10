@@ -8,6 +8,7 @@ import { AiOutlineDatabase } from "react-icons/ai";
 import { RiTruckLine } from "react-icons/ri";
 import { MdDataSaverOff } from "react-icons/md";
 import { VscGraph } from "react-icons/vsc";
+import { useNavigate } from "react-router-dom";
 
 const Admin = () => {
     const [truckInfoClick, setTruckInfoClick] = useState(true);
@@ -18,6 +19,10 @@ const Admin = () => {
     const [registeredCarCount, setRegisteredCarCount] = useState(0);
     const [dailyPred, setDailyPred] = useState(0);
     const [thisMonthRecord, setThisMonthRecord] = useState(0);
+
+    const navigate = useNavigate();
+    const [isAuthorized, setIsAuthorized] = useState(false);
+
 
     const showTruckInfo = () => {
         setTruckInfoClick(true);
@@ -31,18 +36,43 @@ const Admin = () => {
 
     // 대시보드 데이터 받아오기
     useEffect(() => {
-        fetch('http://10.125.121.216:8080/api/techtri/admin/dashboard')
-        .then(resp => resp.json())
+        const isMember = localStorage.getItem("token")
+        if(!isMember){
+            alert("로그인 후 이용해주세요");
+            navigate("/");
+            return
+        }
+
+        fetch('http://10.125.121.216:8080/api/techtri/admin/dashboard', {
+            headers: {
+                Authorization: localStorage.getItem("token")
+            }
+        })
+        .then(resp => {
+            console.log("resp : ",resp);
+            if(resp.status === 403){
+                navigate("/unauthorized");
+                return Promise.reject("Unauthorized");
+            }
+            return resp.json();
+        })
         .then(data => {
+            console.log("데이터 : ", data);
             setTotalCarCount(data.totalCarCount);
             setRegisteredCarCount(data.todayRegisteredCarCount);
             setDailyPred(data.todayPredict);
             setThisMonthRecord(data.thisMonthRecord);
+            setIsAuthorized(true);
         })
         .catch(err => console.log(err));
         
     }, [])
 
+    // 로그인 확인 또는 인가 상태 확인 중에는 아무것도 렌더링하지 않음
+    if (!isAuthorized) {
+        return null; 
+    }
+    
     return (
         <div className="grow flex">
             <SideBar />

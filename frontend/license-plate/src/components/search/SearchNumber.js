@@ -2,14 +2,12 @@ import { useEffect, useRef, useState } from "react"
 import Pagination from "react-js-pagination";
 import SearchTable from "../../components/search/SearchTable";
 import DetailModal from "./DetailModal";
+import { useNavigate } from "react-router-dom";
 
 const SearchNumber = () => {
 
-    // const Authorization = localStorage.getItem("token")
-
     // Ref 변수 선언
     const numberRef = useRef();
-
     // 데이터 관련
     const [currentItems, setCurrentItems] = useState([]);
 
@@ -29,7 +27,11 @@ const SearchNumber = () => {
     }
 
     const onRowClick = (seq) => {
-        fetch(`http://10.125.121.216:8080/api/techtri/record/detail/${seq}`)
+        fetch(`http://10.125.121.216:8080/api/techtri/record/detail/${seq}`, {
+            headers: {
+                Authorization: localStorage.getItem("token"),
+            }
+        })
             .then(resp => resp.json())
             .then(data => {
                 console.log("받은 데이터: ", data)
@@ -57,7 +59,7 @@ const SearchNumber = () => {
         const data = {
             method: "POST",
             headers: {
-                // "Authorization": Authorization,
+                Authorization: localStorage.getItem("token"),
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(obj)
@@ -83,7 +85,7 @@ const SearchNumber = () => {
         const data = {
             method: "POST",
             headers: {
-                // "Authorization": Authorization,
+                Authorization: localStorage.getItem("token"),
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(obj)
@@ -100,7 +102,6 @@ const SearchNumber = () => {
             .catch(error => console.log(error))
     }
 
-
     // 서치에 제일 처음 들어왔을 때
     useEffect(() => {
         const obj = {
@@ -110,7 +111,7 @@ const SearchNumber = () => {
         const data = {
             method: "POST",
             headers: {
-                // "Authorization": Authorization,
+                Authorization: localStorage.getItem("token"),
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(obj)
@@ -152,7 +153,7 @@ const SearchNumber = () => {
                     <div className="sm:flex gap-6 mx-4">
                         {detailData.images.filter(image => image.type === "pre-prediction").map((image, index) => (
                             <div key={index}>
-                                
+
                                 <img className="bg-white mt-4 border-2 border-gray-300 sm:w-[19rem] sm:h-[15rem] lg:w-[50rem] lg:h-[18.4rem]" src={image.url} alt={`이미지 ${index}`} />
                             </div>
                         ))}

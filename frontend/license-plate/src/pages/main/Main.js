@@ -36,6 +36,9 @@ const Main = () => {
 
         fetch('http://10.125.121.216:8080/api/techtri/predict', {
             method: "POST",
+            headers : {
+                Authorization: localStorage.getItem("token"),
+            },
             body: formData,
         })
             .then(resp => resp.json())

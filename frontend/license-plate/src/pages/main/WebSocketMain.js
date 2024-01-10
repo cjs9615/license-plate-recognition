@@ -15,6 +15,7 @@ import { FaTruck } from "react-icons/fa6";
 import { LuRectangleHorizontal } from "react-icons/lu";
 import { MdOutlineSmsFailed } from "react-icons/md";
 import { AiFillDatabase } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
 const WebSocketMain = () => {
     const webSocket = useRef(null);
@@ -33,6 +34,9 @@ const WebSocketMain = () => {
     // 작업 등록
     const [selTruck, setSelTruck] = useState();
     const [openModal, setOpenModal] = useState(false);
+
+    const [isAuthorized, setIsAuthorized] = useState(false);
+    const navigate = useNavigate();
 
     // 작업 등록을 위한 모달 열기
     const handleModal = () => {
@@ -55,6 +59,15 @@ const WebSocketMain = () => {
     }
 
     useEffect(() => {
+        const isMember = localStorage.getItem("token")
+        if(!isMember){
+            alert("로그인 후 이용해주세요");
+            navigate("/");
+            return
+        }
+
+        setIsAuthorized(true);
+
         webSocket.current = new WebSocket("ws://10.125.121.216:8080/socketservice");
         webSocket.current.onopen = () => {
             console.log("WebSocket 연결");
@@ -85,6 +98,10 @@ const WebSocketMain = () => {
             }
         };
     }, [])
+    
+    if (!isAuthorized) {
+        return null; 
+    }
 
     return (
         <div className="grow flex">

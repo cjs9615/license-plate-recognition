@@ -38,7 +38,11 @@ const SearchDate = () => {
     const [detailData, setDetailData] = useState(null);
 
     const onRowClick = (seq) => {
-        fetch(`http://10.125.121.216:8080/api/techtri/record/detail/${seq}`)
+        fetch(`http://10.125.121.216:8080/api/techtri/record/detail/${seq}`,{
+            headers : {
+                Authorization: localStorage.getItem("token"),
+            }
+        })
             .then(resp => resp.json())
             .then(data => {
                 console.log("받은 데이터: ", data)
@@ -71,7 +75,7 @@ const SearchDate = () => {
         const data = {
             method: "POST",
             headers: {
-                // "Authorization": Authorization,
+                Authorization: localStorage.getItem("token"),
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(obj),
@@ -97,7 +101,7 @@ const SearchDate = () => {
         const data = {
             method: "POST",
             headers: {
-                // "Authorization": Authorization,
+                Authorization: localStorage.getItem("token"),
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(obj),
@@ -121,7 +125,7 @@ const SearchDate = () => {
         const data = {
             method: "POST",
             headers: {
-                // "Authorization": Authorization,
+                Authorization: localStorage.getItem("token"),
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(obj)

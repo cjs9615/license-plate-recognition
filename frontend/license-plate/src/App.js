@@ -7,6 +7,7 @@ import Main from './pages/main/Main';
 import Search from './pages/main/Search';
 import Admin from './pages/main/Admin';
 import WebSocketMain from './pages/main/WebSocketMain';
+import AccessDeniedPage from './pages/main/AccessDeniedPage';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path='/test' element={<Main />}></Route>
             <Route path='/search' element={<Search />}></Route>
             <Route path='/admin' element={<Admin />}></Route>
+            <Route path='/unauthorized' element={<AccessDeniedPage />}></Route>
           </Routes>
         </RecoilRoot>
       </main>

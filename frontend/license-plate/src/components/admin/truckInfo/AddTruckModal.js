@@ -26,7 +26,12 @@ const AddTruckModal = ({ setAddModalOpen }) => {
         }
         const url = `http://10.125.121.216:8080/api/techtri/admin/register/car?plateNumber=${numberPlateInputRef.current.value}`;
 
-        fetch(url,{method: "POST"})
+        fetch(url,{
+            method: "POST",
+            headers: {
+                Authorization: localStorage.getItem("token")
+            }
+        })
         .then(resp => {
             if (resp.status === 200) {
                 setAddModalOpen(false);
