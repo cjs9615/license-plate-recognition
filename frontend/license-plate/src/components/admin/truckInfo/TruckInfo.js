@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { MdAddToPhotos } from "react-icons/md";
 import Pagination from "react-js-pagination";
-import '../react-paginate.css';
+import '../../comm/react-paginate.css';
 import TruckList from "./TruckList";
 import AddTruckModal from "./AddTruckModal";
 
@@ -51,7 +51,7 @@ const TruckInfo = () => {
 
   // 엔터키 이벤트
   const enterKeyDown = (e) => {
-    if (e.key == "Enter") {
+    if (e.key === "Enter") {
       searchTruck();
     }
   }

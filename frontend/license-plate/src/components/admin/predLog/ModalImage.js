@@ -5,7 +5,7 @@ const ModalImage = ({ imgUrl, marginT, title }) => {
         <div className={`flex gap-10 ${marginT}`}>
             <div className="w-[30%] md:w-[20%]">{title}</div>
             <div className="h-[150px] md:h-[200px] grow">
-                <img src={imgUrl} className="w-full h-full object-fill" />
+                <img src={imgUrl} className="w-full h-full object-fill" alt='결과이미지' />
             </div>
         </div>
     )

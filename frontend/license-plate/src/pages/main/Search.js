@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import SideBar from "../../components/comm/SideBar"
-import "../../components/search/react-paginate2.css"
+import "../../components/comm/react-paginate.css"
 import SearchDate from "../../components/search/SearchDate"
 import SearchNumber from "../../components/search/SearchNumber"
 
