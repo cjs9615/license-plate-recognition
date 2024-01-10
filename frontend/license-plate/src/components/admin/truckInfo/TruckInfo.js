@@ -34,6 +34,7 @@ const TruckInfo = () => {
     const data = {
       method: 'POST',
       headers: {
+        Authorization: localStorage.getItem("token"),
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(targetNumber)
@@ -76,6 +77,7 @@ const TruckInfo = () => {
     const data = {
       method: 'POST',
       headers: {
+        Authorization: localStorage.getItem("token"),
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(obj)
@@ -100,6 +102,7 @@ const TruckInfo = () => {
     const data = {
       method: 'POST',
       headers: {
+        Authorization: localStorage.getItem("token"),
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(obj)

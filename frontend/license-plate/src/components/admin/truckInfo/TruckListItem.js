@@ -8,7 +8,12 @@ const TruckListItem = ({id, plateNumber, regiDate, status, page, idx}) => {
 
         const url = `http://10.125.121.216:8080/api/techtri/admin/car/status/${id}`;
         
-        fetch(url, {method:"PUT"})
+        fetch(url, {
+            method:"PUT",
+            headers: {
+                Authorization: localStorage.getItem("token"),
+            }
+        })
         .then(resp => console.log(resp))
         .catch(err => console.log(err));
     }

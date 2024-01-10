@@ -15,6 +15,7 @@ const MainCard = ({ truckNumber, predictResult, predictId, time, setImgUrl, setP
         const data = {
             method: 'POST',
             headers: {
+                Authorization: localStorage.getItem("token"),
                 'Content-Type': 'application/json'
             },
         };

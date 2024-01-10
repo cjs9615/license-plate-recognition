@@ -18,7 +18,11 @@ const PredLog = () => {
   }
 
   const searchPredLog = () => {
-    fetch(`http://10.125.121.216:8080/api/techtri/admin/predict/${page}?date=${targetDate.current.value}`)
+    fetch(`http://10.125.121.216:8080/api/techtri/admin/predict/${page}?date=${targetDate.current.value}`, {
+      headers: {
+        Authorization: localStorage.getItem("token")
+      }
+    })
       .then(resp => resp.json())
       .then(data => {
         setPage(1);
@@ -32,7 +36,11 @@ const PredLog = () => {
   // 페이지 이동할 때
   useEffect(() => {
 
-    fetch(`http://10.125.121.216:8080/api/techtri/admin/predict/${page}?date=${targetDate.current.value}`)
+    fetch(`http://10.125.121.216:8080/api/techtri/admin/predict/${page}?date=${targetDate.current.value}`,{
+      headers: {
+        Authorization: localStorage.getItem("token")
+      }
+    })
       .then(resp => resp.json())
       .then(data => {
         // console.log("추론기록 데이터 ", data);
@@ -44,7 +52,11 @@ const PredLog = () => {
   }, [page])
 
   useEffect(() => {
-    fetch('http://10.125.121.216:8080/api/techtri/admin/predict/1?date=')
+    fetch('http://10.125.121.216:8080/api/techtri/admin/predict/1?date=',{
+      headers: {
+        Authorization: localStorage.getItem("token")
+      }
+    })
       .then(resp => resp.json())
       .then(data => {
         // console.log("추론기록 데이터 ", data);

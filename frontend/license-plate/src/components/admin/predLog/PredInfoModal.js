@@ -17,7 +17,12 @@ const PredInfoModal = ({ setInfoModalOpen, selPredId }) => {
 
         const url = `http://10.125.121.216:8080/api/techtri/admin/predict/detail/${selPredId}`;
 
-        fetch(url, { method: "GET" })
+        fetch(url, { 
+            method: "GET",
+            headers: {
+                Authorization: localStorage.getItem("token")
+            }
+        })
             .then(resp => resp.json())
             .then(data => {
                 setData(data);
