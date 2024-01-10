@@ -12,7 +12,7 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 @Component
-public class PushSocketHandler extends TextWebSocketHandler {
+public class SocketHandler extends TextWebSocketHandler {
 	// 현재 연결된 세션들
 	private static Map<String, WebSocketSession> map = new HashMap<>();	
 

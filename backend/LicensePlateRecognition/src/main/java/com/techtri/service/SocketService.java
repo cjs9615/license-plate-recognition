@@ -7,17 +7,17 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.techtri.config.PushSocketHandler;
+import com.techtri.config.SocketHandler;
 import com.techtri.dto.PredictResultDto;
 import com.techtri.dto.SocketResponseDto;
 
 @Service
 public class SocketService {
-	private PushSocketHandler socketHandler; 
+	private SocketHandler socketHandler; 
 	private PredictService predictService;
 	private S3Service s3Service;
 	
-	public SocketService(PushSocketHandler socketHandler, S3Service s3Service, PredictService predictService) {
+	public SocketService(SocketHandler socketHandler, S3Service s3Service, PredictService predictService) {
 		this.socketHandler = socketHandler;
 		this.s3Service = s3Service;
 		this.predictService = predictService;
