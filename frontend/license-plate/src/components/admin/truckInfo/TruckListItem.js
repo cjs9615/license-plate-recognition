@@ -1,10 +1,16 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 const TruckListItem = ({id, plateNumber, regiDate, status, page, idx}) => {
     const [isActive, setIsActive] = useState(status);
 
     const handleActive = (e) => {
         setIsActive(e.target.checked);
+
+        const url = `http://10.125.121.216:8080/api/techtri/admin/car/status/${id}`;
+        
+        fetch(url, {method:"PUT"})
+        .then(resp => console.log(resp))
+        .catch(err => console.log(err));
     }
 
     return (

@@ -55,7 +55,7 @@ const WebSocketMain = () => {
     }
 
     useEffect(() => {
-        webSocket.current = new WebSocket("ws://10.125.121.216:8080/pushservice");
+        webSocket.current = new WebSocket("ws://10.125.121.216:8080/socketservice");
         webSocket.current.onopen = () => {
             console.log("WebSocket 연결");
         }

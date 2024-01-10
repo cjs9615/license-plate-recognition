@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Pagination from "react-js-pagination";
 import PredLogList from "./PredLogList";
+import PredInfoModal from "./PredInfoModal"
 
 const PredLog = () => {
   const targetDate = useRef();
@@ -8,10 +9,8 @@ const PredLog = () => {
   const [page, setPage] = useState(1);
   const [totalNum, setTotalNum] = useState(0);
 
-  // 페이지 이동할 때 데이터 받아오기 (useEffect)
-  // 날짜로 검색하기
-  // 검색했다가 초기화는 어떻게 할지 생각해보기 (날짜 고르는 곳에 삭제가 있긴 있음)
-  // 추론결과 리스트에 어떤 정보 보여줄지 생각하기
+  const [infoModalOpen, setInfoModalOpen] = useState(false);
+  const [selPredId, setSelPredId] = useState();
 
   // 페이지 이동
   const handlePageChange = (page) => {
@@ -36,7 +35,7 @@ const PredLog = () => {
     fetch(`http://10.125.121.216:8080/api/techtri/admin/predict/${page}?date=${targetDate.current.value}`)
       .then(resp => resp.json())
       .then(data => {
-        console.log("추론기록 데이터 ", data);
+        // console.log("추론기록 데이터 ", data);
         setPredLogData(data.content);
         setTotalNum(data.totalElements);
       })
@@ -48,7 +47,7 @@ const PredLog = () => {
     fetch('http://10.125.121.216:8080/api/techtri/admin/predict/1?date=')
       .then(resp => resp.json())
       .then(data => {
-        console.log("추론기록 데이터 ", data);
+        // console.log("추론기록 데이터 ", data);
         setPredLogData(data.content);
         setTotalNum(data.totalElements);
       })
@@ -73,7 +72,7 @@ const PredLog = () => {
       <div className="mt-[1rem] mb-[1rem]">
         {
           predLogData && predLogData
-            ? <PredLogList predLogData={predLogData} page={page} />
+            ? <PredLogList predLogData={predLogData} page={page} setInfoModalOpen={setInfoModalOpen} setSelPredId={setSelPredId}/>
             : "테스트"
         }
         <Pagination
@@ -83,6 +82,11 @@ const PredLog = () => {
           pageRangeDisplayed={5}
           onChange={handlePageChange} />
       </div>
+      {
+        infoModalOpen
+        ? <PredInfoModal setInfoModalOpen={setInfoModalOpen} selPredId={selPredId}/>
+        : ""
+      }
     </div>
   )
 }

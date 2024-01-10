@@ -1,5 +1,11 @@
 
-const PredLogListItem = ({ id, idx, number, isSuccess, time, page }) => {
+const PredLogListItem = ({ id, idx, number, isSuccess, time, page, setInfoModalOpen, setSelPredId }) => {
+
+    const handleOpenModal = () => {
+        setInfoModalOpen(true);
+        setSelPredId(id);
+    }
+
     return (
         <tr key={id} className="bg-white border-b ">
             <td className="px-6 py-4 hidden md:block">{idx + (10 * (page - 1)) + 1}</td>
@@ -21,7 +27,7 @@ const PredLogListItem = ({ id, idx, number, isSuccess, time, page }) => {
                 {time.replace('T', ' ').slice(0, 19)}
             </td>
             <td className="px-6 py-4">
-                <button>상세보기</button>
+                <button onClick={handleOpenModal}>상세보기</button>
             </td>
         </tr>
     )
