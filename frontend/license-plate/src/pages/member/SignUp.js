@@ -97,8 +97,6 @@ const SignUp = () => {
             email: email.current.value
         };
 
-        console.log("회원가입 데이터: ",signUpData);
-
         axios.post("http://10.125.121.216:8080/api/public/signup", signUpData)
             .then(resp => {
                 if(resp.status == 200){
