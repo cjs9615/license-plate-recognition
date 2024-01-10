@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 
@@ -91,13 +93,29 @@ public class PredictService {
 		RequestFlaskDto requestDto = RequestFlaskDto.builder().url(preImage).build();
 		ResponseFlaskDto responseDto = sendToFlask(requestDto);
 		
-		Predict predict = predictRepo.save(Predict.builder()
-				.isSuccess(responseDto.isSuccess())
-				.number(responseDto.getResult()).comment(responseDto.getMessage()).build());
-		imagesRepo.save(Images.builder().type("pre-prediction").url(preImage).predict(predict).build());
+		boolean isSuccess = responseDto.isSuccess();
 
-		if (!responseDto.isSuccess())
-			return PredictResultDto.builder().isSuccess(false).build();
+		String regex = ".*\\d+.*";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(responseDto.getResult());
+        
+        Predict predict = null;
+  
+        if(isSuccess && !matcher.find()) { // 추론결과는 성공, 숫자 없이 문자만 찾아진 경우
+        	isSuccess = false;
+        	 predict = predictRepo.save(Predict.builder()
+        			.isSuccess(isSuccess).number("")
+        			.comment("number_prediction_failed : "+responseDto.getResult()).build());
+        } else {        	
+        	 predict = predictRepo.save(Predict.builder()
+        			.isSuccess(responseDto.isSuccess())
+        			.number(responseDto.getResult()).comment(responseDto.getMessage()).build());
+        }
+        
+        imagesRepo.save(Images.builder().type("pre-prediction").url(preImage).predict(predict).build());
+		
+
+		if (!isSuccess) return PredictResultDto.builder().time(predict.getTime()).isSuccess(false).build();
 
 		String licensePlateImage = decodeFile(responseDto.getLicense_plate_image(), responseDto,1);
 		String truckImage = decodeFile(responseDto.getTruck_image(), responseDto,2);
