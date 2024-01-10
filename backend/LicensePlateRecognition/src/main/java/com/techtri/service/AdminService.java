@@ -14,13 +14,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.querydsl.core.BooleanBuilder;
+import com.techtri.domain.Images;
 import com.techtri.domain.Predict;
 import com.techtri.domain.QPredict;
 import com.techtri.domain.QRegisteredCars;
 import com.techtri.domain.RegisteredCars;
 import com.techtri.domain.Search;
+import com.techtri.dto.PredictResultDto;
+import com.techtri.persistence.ImagesRepository;
 import com.techtri.persistence.PredictRepository;
 import com.techtri.persistence.RegisteredCarsRepository;
 import com.techtri.persistence.WorkRecordRepository;
@@ -30,11 +34,14 @@ public class AdminService {
 	private RegisteredCarsRepository regiCarRepo;
 	private PredictRepository predictRepo;
 	private WorkRecordRepository recordRepo;
+	private ImagesRepository imageRepo;
 	
-	public AdminService(RegisteredCarsRepository regiCarRepo, PredictRepository predictRepo, WorkRecordRepository recordRepo) {
+	public AdminService(RegisteredCarsRepository regiCarRepo, PredictRepository predictRepo, WorkRecordRepository recordRepo,
+			ImagesRepository imageRepo) {
 		this.regiCarRepo = regiCarRepo;
 		this.predictRepo = predictRepo;
 		this.recordRepo = recordRepo;
+		this.imageRepo = imageRepo;
 	}
 	
 	private String getTodayRegisteredCar() {		
@@ -130,5 +137,23 @@ public class AdminService {
 		regiCarRepo.save(regiCar);
 		
 		return ResponseEntity.ok().build();
+	}
+	
+	public ResponseEntity<?> changeCarStatus(int carId) {
+		if(!regiCarRepo.findById(carId).isPresent())
+			return ResponseEntity.badRequest().build();
+		RegisteredCars car = regiCarRepo.findById(carId).get();
+		car.updateCarStatus();
+		regiCarRepo.save(car);
+		return ResponseEntity.ok().build();
+	}
+	
+	public Map<String, Object>  getPredictDetail(int predictId) {
+		Map<String, Object> detail = new HashMap<>();
+		Predict predict = predictRepo.findById(predictId).get();
+		List<Images> imageList = imageRepo.findByPredictId(predict.getId());
+		detail.put("predictDetail", predict);
+		detail.put("imageList", imageList);
+		return detail;
 	}
 }

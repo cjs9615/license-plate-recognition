@@ -36,4 +36,9 @@ public class RegisteredCars {
 	
 	private boolean status;
 	private String four_digits;
+	
+	public void updateCarStatus() {
+		this.status = !status;
+	}
+
 }
