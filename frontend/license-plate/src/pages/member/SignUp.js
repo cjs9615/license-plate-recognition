@@ -36,7 +36,7 @@ const SignUp = () => {
             return;
         }
 
-        axios.get(`http://10.125.121.216:8080/api/techtri/check-id?id=${signUpId.current.value}`)
+        axios.get(`http://10.125.121.216:8080/api/public/check-id?id=${signUpId.current.value}`)
             .then(resp => {
                 if(resp.status == 200){
                     setIsValidID(true);
@@ -99,7 +99,7 @@ const SignUp = () => {
 
         console.log("회원가입 데이터: ",signUpData);
 
-        axios.post("http://10.125.121.216:8080/api/techtri/signup", signUpData)
+        axios.post("http://10.125.121.216:8080/api/public/signup", signUpData)
             .then(resp => {
                 if(resp.status == 200){
                     alert("회원가입이 완료되었습니다.\n로그인 페이지로 돌아갑니다.");
