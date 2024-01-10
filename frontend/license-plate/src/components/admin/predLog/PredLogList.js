@@ -1,6 +1,6 @@
 import PredLogListItem from "./PredLogListItem"
 
-const PredLogList = ({predLogData, page}) => {
+const PredLogList = ({predLogData, page, setInfoModalOpen, setSelPredId}) => {
     return (
         <div>
             <div className="relative ">
@@ -26,7 +26,7 @@ const PredLogList = ({predLogData, page}) => {
                     </thead>
                     <tbody>
                         {
-                            predLogData && predLogData.map((item, idx) => <PredLogListItem key={`data${idx}`} id={item.id} idx={idx} number={item.number} time={item.time} isSuccess={item.isSuccess} page={page} /> )
+                            predLogData && predLogData.map((item, idx) => <PredLogListItem key={`data${idx}`} id={item.id} idx={idx} number={item.number} time={item.time} isSuccess={item.isSuccess} page={page} setInfoModalOpen={setInfoModalOpen} setSelPredId={setSelPredId}/> )
                         }
                     </tbody>
                 </table>
