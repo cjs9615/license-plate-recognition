@@ -14,7 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.querydsl.core.BooleanBuilder;
 import com.techtri.domain.Images;
@@ -23,7 +22,6 @@ import com.techtri.domain.QPredict;
 import com.techtri.domain.QRegisteredCars;
 import com.techtri.domain.RegisteredCars;
 import com.techtri.domain.Search;
-import com.techtri.dto.PredictResultDto;
 import com.techtri.persistence.ImagesRepository;
 import com.techtri.persistence.PredictRepository;
 import com.techtri.persistence.RegisteredCarsRepository;

@@ -13,6 +13,8 @@ import com.techtri.dto.SocketResponseDto;
 
 @Service
 public class SocketService {
+	private static final int PRE_PREDICTION_FOLDER_INDEX = 0;
+
 	private SocketHandler socketHandler; 
 	private PredictService predictService;
 	private S3Service s3Service;
@@ -34,7 +36,7 @@ public class SocketService {
 	}
 	
 	private String uploadAndSendImage(MultipartFile file) throws IOException {
-		String preImage = s3Service.uploadFiles(file, 0);
+		String preImage = s3Service.uploadFiles(file, PRE_PREDICTION_FOLDER_INDEX);
 		SocketResponseDto dto = SocketResponseDto.builder().type("pre-prediction")
 				.imageUrl(preImage).build();
 		sendMapData(dto);

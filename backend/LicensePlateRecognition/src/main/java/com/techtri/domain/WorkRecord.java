@@ -1,9 +1,6 @@
 package com.techtri.domain;
 
 import java.sql.Timestamp;
-import java.util.Date;
-
-import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -26,7 +23,7 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class WorkRecord { // 입출차 기록T
+public class WorkRecord {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int seq;
@@ -34,17 +31,14 @@ public class WorkRecord { // 입출차 기록T
 	@JsonFormat(timezone = "Asia/Seoul")
 	private Timestamp timestamp;
 	
-//	private int carId; // 등록차량 ID
 	@ManyToOne
 	@JoinColumn(name="car_id")
 	private RegisteredCars registeredCar;
 	
-//	private String writer; // 기록 유저 ID
 	@ManyToOne
 	@JoinColumn(name="member_id")
 	private Member member;
 	
-	//private int predictId; // 관련 추론 ID
 	@ManyToOne
 	@JoinColumn(name="predict_id")
 	private Predict predict;

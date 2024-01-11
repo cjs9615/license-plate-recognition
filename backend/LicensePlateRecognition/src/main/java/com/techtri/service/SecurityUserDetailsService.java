@@ -21,7 +21,7 @@ public class SecurityUserDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(@Param(value="id") String username) throws UsernameNotFoundException {
 		
-		Member member = memRepo.findById(username).orElseThrow(()->new UsernameNotFoundException("Not Foound!"));
+		Member member = memRepo.findById(username).orElseThrow(()->new UsernameNotFoundException("Not Found!"));
 
 		return new User(member.getId(), member.getPassword(), AuthorityUtils.createAuthorityList(member.getRole().toString()));
 	}
