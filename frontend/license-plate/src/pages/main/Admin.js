@@ -49,7 +49,6 @@ const Admin = () => {
             }
         })
         .then(resp => {
-            console.log("resp : ",resp);
             if(resp.status === 403){
                 navigate("/unauthorized");
                 return Promise.reject("Unauthorized");
@@ -57,7 +56,6 @@ const Admin = () => {
             return resp.json();
         })
         .then(data => {
-            console.log("데이터 : ", data);
             setTotalCarCount(data.totalCarCount);
             setRegisteredCarCount(data.todayRegisteredCarCount);
             setDailyPred(data.todayPredict);
