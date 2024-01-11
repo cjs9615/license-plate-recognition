@@ -1,14 +1,16 @@
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import SideBar from "../../components/comm/SideBar"
 import TruckInfo from "../../components/admin/truckInfo/TruckInfo";
 import PredLog from "../../components/admin/predLog/PredLog";
 import Dashboard from "../../components/admin/Dashboard";
-
 import { AiOutlineDatabase } from "react-icons/ai";
 import { RiTruckLine } from "react-icons/ri";
 import { MdDataSaverOff } from "react-icons/md";
 import { VscGraph } from "react-icons/vsc";
 import { useNavigate } from "react-router-dom";
+
+const API_URL = 'http://10.125.121.216:8080/api/techtri/admin/dashboard';
+const UNAUTHORIZED_PATH = '/unauthorized';
 
 const Admin = () => {
     const [truckInfoClick, setTruckInfoClick] = useState(true);
@@ -34,43 +36,47 @@ const Admin = () => {
         setPredLogClick(true);
     }
 
-    // 대시보드 데이터 받아오기
     useEffect(() => {
-        const isMember = localStorage.getItem("token")
-        if(!isMember){
-            alert("로그인 후 이용해주세요");
-            navigate("/");
-            return
+        // 대시보드 데이터 받아오기
+        const fetchData = async () => {
+            try {
+                const isMember = localStorage.getItem("token");
+                if (!isMember) {
+                    alert("로그인 후 이용해주세요");
+                    navigate("/");
+                    return;
+                }
+
+                const response = await fetch(API_URL, {
+                    headers: {
+                        Authorization: localStorage.getItem("token"),
+                    },
+                });
+
+                if (response.status === 403) {
+                    navigate(UNAUTHORIZED_PATH);
+                    return;
+                }
+
+                const data = await response.json();
+                setTotalCarCount(data.totalCarCount);
+                setRegisteredCarCount(data.todayRegisteredCarCount);
+                setDailyPred(data.todayPredict);
+                setThisMonthRecord(data.thisMonthRecord);
+                setIsAuthorized(true);
+            } catch (error) {
+                console.log("Error fetching Data :", error);
+            }
         }
 
-        fetch('http://10.125.121.216:8080/api/techtri/admin/dashboard', {
-            headers: {
-                Authorization: localStorage.getItem("token")
-            }
-        })
-        .then(resp => {
-            if(resp.status === 403){
-                navigate("/unauthorized");
-                return Promise.reject("Unauthorized");
-            }
-            return resp.json();
-        })
-        .then(data => {
-            setTotalCarCount(data.totalCarCount);
-            setRegisteredCarCount(data.todayRegisteredCarCount);
-            setDailyPred(data.todayPredict);
-            setThisMonthRecord(data.thisMonthRecord);
-            setIsAuthorized(true);
-        })
-        .catch(err => console.log(err));
-        
+        fetchData();
     }, [])
 
     // 로그인 확인 또는 인가 상태 확인 중에는 아무것도 렌더링하지 않음
     if (!isAuthorized) {
-        return null; 
+        return null;
     }
-    
+
     return (
         <div className="grow flex">
             <SideBar />
@@ -85,8 +91,8 @@ const Admin = () => {
                         }
                         {
                             predLogClick
-                            ? <p className="text-[#2E3D4E] font-bold cursor-pointer">추론기록</p>
-                            : <button onClick={showLog} className="text-[#A1A1A1] font-bold hover:underline">추론기록</button>
+                                ? <p className="text-[#2E3D4E] font-bold cursor-pointer">추론기록</p>
+                                : <button onClick={showLog} className="text-[#A1A1A1] font-bold hover:underline">추론기록</button>
                         }
                     </div>
                 </div>
