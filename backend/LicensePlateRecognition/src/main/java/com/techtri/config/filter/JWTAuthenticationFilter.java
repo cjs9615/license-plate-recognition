@@ -45,8 +45,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		User user = (User) authResult.getPrincipal();
 		
 		String token = JWT.create()
-		.withExpiresAt(new Date(System.currentTimeMillis()+1000*60*60))
-		.withClaim("username", user.getUsername())
+		.withExpiresAt(new Date(System.currentTimeMillis()+1000*60*60*6))
+		.withClaim("id", user.getUsername())
 		.sign(Algorithm.HMAC256("com.techtri.jwt"));
 			
 		response.addHeader("Authorization", "Bearer " + token);

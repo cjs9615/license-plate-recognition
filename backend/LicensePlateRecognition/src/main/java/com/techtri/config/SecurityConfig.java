@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.AuthorizationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -39,7 +40,8 @@ public class SecurityConfig {
 	SecurityFilterChain fiterChain(HttpSecurity http) throws Exception {
 
 		http.authorizeHttpRequests(auth -> auth
-//				.requestMatchers(new AntPathRequestMatcher("/api/private/**")).authenticated()
+				.requestMatchers(new AntPathRequestMatcher("/api/techtri/admin/**")).hasRole("ADMIN")
+				.requestMatchers(new AntPathRequestMatcher("/api/techtri/**")).authenticated()
 				.anyRequest().permitAll());
 
 		http.csrf(csrf -> csrf.disable());

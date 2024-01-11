@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,5 +43,15 @@ public class AdminController {
 	@PostMapping("/api/techtri/admin/register/car")
 	public ResponseEntity<?> registerCar(@RequestParam String plateNumber) {
 		return adminService.registerCar(plateNumber);
+	}
+	
+	@PutMapping("/api/techtri/admin/car/status/{carId}")
+	public ResponseEntity<?> changeCarStatus(@PathVariable Integer carId) {
+		return adminService.changeCarStatus(carId);
+	}
+	
+	@GetMapping("/api/techtri/admin/predict/detail/{predictId}")
+	public Map<String, Object> getPredictDetail(@PathVariable Integer predictId) {
+		return adminService.getPredictDetail(predictId);
 	}
 }

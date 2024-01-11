@@ -18,12 +18,12 @@ public class MemberController {
 	@PostMapping("/login")
 	public void login() {}
 	
-	@GetMapping("/api/techtri/check-id")
+	@GetMapping("/api/public/check-id")
 	public ResponseEntity<?> checkId(String id){
 		return memberService.checkId(id);
 	}
 	
-	@PostMapping("/api/techtri/signup")
+	@PostMapping("/api/public/signup")
 	public ResponseEntity<?> memberRegister(@RequestBody Member member) {
 		return memberService.memberRegister(member);
 	}

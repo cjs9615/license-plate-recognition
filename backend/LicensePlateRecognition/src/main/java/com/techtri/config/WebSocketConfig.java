@@ -11,12 +11,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Configuration
 @EnableWebSocket
-public class PushServerConfig implements WebSocketConfigurer {
-	private final PushSocketHandler pushSocketHandler;
+public class WebSocketConfig implements WebSocketConfigurer {
+	private final SocketHandler socketHandler;
 
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		registry.addHandler(pushSocketHandler, "/pushservice").setAllowedOrigins("*");
+		registry.addHandler(socketHandler, "/socketservice").setAllowedOrigins("*");
 
 	}
 
