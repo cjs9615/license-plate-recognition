@@ -59,7 +59,7 @@ const Login = () => {
 
     return (
         <div className="flex justify-center grow h-full bg-[url(./images/background_img.jpg)] bg-center bg-cover">
-            <div className="relative flex justify-center bg-white w-[500px] h-[500px] m-auto md:w-[650px] md:h-[600px] md:rounded-lg">
+            <div className="relative flex justify-center bg-white w-[500px] h-[500px] m-auto md:w-[600px] md:h-[600px] md:rounded-lg">
                 <div className="absolute hidden md:flex md:justify-center md:gap-5 w-[20%] bottom-[2rem] p-2">
                     <img src={logoBlack} />
                     <img src={dysntLogo} />

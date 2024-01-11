@@ -111,9 +111,9 @@ const SignUp = () => {
 
     return (
         <div className="flex justify-center grow h-full bg-[url(./images/background_img.jpg)] bg-center bg-cover">
-            <div className="flex justify-center bg-white w-[500px] h-[700px] m-auto md:w-[768px] lg:w-[800px] lg:h-full">
+            <div className="flex justify-center bg-white w-[500px] h-[700px] m-auto md:w-[630px] rounded-lg">
                 <div className="w-full h-full md:w-[500px] md:h-[700px] m-auto p-5">
-                    <h1 className="text-2xl md:text-3xl font-bold text-center mt-[1rem]">SIGN UP</h1>
+                    <h1 className="text-2xl md:text-3xl font-bold text-center mt-[2rem]">SIGN UP</h1>
                     <div className="mt-[3rem]">
                         <div className="flex flex-col">
                             <div className="flex justify-start items-center">
