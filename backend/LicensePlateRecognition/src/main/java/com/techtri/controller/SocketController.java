@@ -17,7 +17,7 @@ public class SocketController {
 		this.socketService = socketService;
 	}
 
-	@PostMapping("/api/techtri/socket/image")
+	@PostMapping("/api/public/socket/image")
 	public void sendAndProcessImage(@RequestParam(value="file") MultipartFile file) throws IOException {
 		socketService.sendAndProcessImage(file);
 	}
