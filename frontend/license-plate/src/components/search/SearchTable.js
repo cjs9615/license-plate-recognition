@@ -1,5 +1,4 @@
 const SearchTable = ({ currentItems, page, onRowClick }) => {
-    // console.log(currentItems);
 
     const items = Array.isArray(currentItems) ? currentItems : [];
     const rowsPerPage = 10;
