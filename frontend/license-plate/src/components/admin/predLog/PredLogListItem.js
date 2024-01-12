@@ -7,7 +7,7 @@ const PredLogListItem = ({ id, idx, number, isSuccess, time, page, setInfoModalO
     }
 
     return (
-        <tr key={id} className="bg-white border-b ">
+        <tr key={id} className={`${isSuccess ? 'bg-white' : 'bg-red-50'} border-b `}>
             <td className="px-6 py-4 hidden md:block">{idx + (10 * (page - 1)) + 1}</td>
             <td className="px-6 py-4">
                 {

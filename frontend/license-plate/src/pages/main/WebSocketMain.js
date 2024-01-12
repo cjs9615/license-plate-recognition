@@ -48,8 +48,7 @@ const WebSocketMain = () => {
         setOpenModal(true);
     }
 
-    // 실패했을 때 리셋
-    const handleReset = () => {
+    const stateReset = () => {
         setIsWaiting(true);
         setPredValue();
         setMatchedData();
@@ -58,9 +57,45 @@ const WebSocketMain = () => {
         setImgUrl();
     }
 
+    // 결과 숫자와 사진, DB가 일치하지 않을 때
+    const handleEditResult = () => {
+
+        if(window.confirm("추론 결과를 실패로 등록하시겠습니까?")){
+
+            const url = `http://10.125.121.216:8080/api/techtri/record/${predValue.predictId}`;
+            fetch(url, {
+                method: "PUT",
+                headers: {
+                    Authorization: localStorage.getItem("token"),
+                }
+            })
+            .then(resp => {
+                if(resp.status === 200){
+                    alert("등록되었습니다.");
+                    stateReset();
+                }
+            })
+        }
+
+        return;
+
+    }
+
+    // 실패했을 때 리셋
+    const handleReset = () => {
+        // setIsWaiting(true);
+        // setPredValue();
+        // setMatchedData();
+        // setIsSuccess();
+        // setSelTruck();
+        // setImgUrl();
+
+        stateReset();
+    }
+
     useEffect(() => {
         const isMember = localStorage.getItem("token")
-        if(!isMember){
+        if (!isMember) {
             alert("로그인 후 이용해주세요");
             navigate("/");
             return
@@ -95,9 +130,9 @@ const WebSocketMain = () => {
             }
         };
     }, [])
-    
+
     if (!isAuthorized) {
-        return null; 
+        return null;
     }
 
     return (
@@ -177,7 +212,7 @@ const WebSocketMain = () => {
                             <Title title="등록 차량 검색 결과" />
                             {
                                 isSuccess
-                                    ? <ResultTable data={matchedData} setSelTruck={setSelTruck}/>
+                                    ? <ResultTable data={matchedData} setSelTruck={setSelTruck} />
                                     :
                                     <div className="rounded-b-md h-[250px] lg:h-[550px]">
                                         <div className="bg-[#e2e2e2] flex flex-col gap-2 justify-center items-center text-gray-500 h-full rounded-b-md ">
@@ -196,10 +231,17 @@ const WebSocketMain = () => {
                             ? ""
                             : isSuccess
                                 ?
-                                <div
-                                    onClick={handleModal}
-                                    className="transition-all bg-[#008E93] hover:bg-[#103c49] text-white rounded-md p-2 px-4 cursor-pointer">
-                                    등록하기
+                                <div className="flex items-center gap-4">
+                                    <div
+                                        onClick={handleEditResult}
+                                        className="transition-all bg-[#1D647A] hover:bg-[#103c49] text-white rounded-md p-2 px-4 cursor-pointer">
+                                        예측실패
+                                    </div>
+                                    <div
+                                        onClick={handleModal}
+                                        className="transition-all bg-[#008E93] hover:bg-[#103c49] text-white rounded-md p-2 px-4 cursor-pointer">
+                                        등록하기
+                                    </div>
                                 </div>
                                 :
                                 <div
@@ -213,7 +255,7 @@ const WebSocketMain = () => {
                     openModal
                         ? <WorkInfoModal
                             setOpenModal={setOpenModal}
-                            carId={selTruck} 
+                            carId={selTruck}
                             predId={predValue.predictId}
                             time={predValue.time}
                             writer={loginUser}

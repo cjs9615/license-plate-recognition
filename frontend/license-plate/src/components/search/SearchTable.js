@@ -6,7 +6,7 @@ const SearchTable = ({ currentItems, page, onRowClick }) => {
 
     return (
         <table className="w-full sm:h-[40rem] md:text-sm rtl:text-right text-gray-900 text-center">
-            <thead className="text-gray-700 bg-gray-50">
+            <thead className="text-white bg-[#2E3D4E]">
                 <tr>
                     <th scope="col" className="text-[7px] sm:text-sm lg:text-base py-2 lg:px-6 lg:py-3">번호</th>
                     <th scope="col" className="text-[7px] sm:text-sm lg:text-base py-2 lg:px-6 lg:py-3">차량번호</th>
@@ -17,11 +17,17 @@ const SearchTable = ({ currentItems, page, onRowClick }) => {
             </thead>
             <tbody>
                 {items.map((item, idx) => (
-                    <tr key={idx} onClick={() => onRowClick(item.seq)} className="bg-white border-b-[1px] hover:cursor-pointer hover:bg-orange-100">
+                    <tr key={idx} onClick={() => onRowClick(item.seq)} className="bg-white border-b-[1px] hover:cursor-pointer hover:bg-[#ffd3af]">
                         <td className="text-[8px] sm:text-sm lg:text-base py-3 sm:py-2 lg:px-6 lg:py-4">{(idx + (10 * (page - 1)) + 1)}</td>
                         <td className="text-[8px] sm:text-sm lg:text-base py-3 sm:py-2 lg:px-6 lg:py-4">{item.plateNumber}</td>
                         <td className="text-[8px] sm:text-sm lg:text-base py-3 sm:py-2 lg:px-6 lg:py-4">{item.timestamp.split("T")[0]}</td>
-                        <td className="text-[8px] sm:text-sm lg:text-base py-3 sm:py-2 lg:px-6 lg:py-4">{item.writer}</td>
+                        {
+                            item.writer === "admin"
+                                ?
+                                <td className="text-[8px] text-blue-600 sm:text-sm lg:text-base py-3 sm:py-2 lg:px-6 lg:py-4">{item.writer}</td>
+                                :
+                                <td className="text-[8px] sm:text-sm lg:text-base py-3 sm:py-2 lg:px-6 lg:py-4">{item.writer}</td>
+                        }
                     </tr>
                 ))}
                 {emptyRows > 0 && (

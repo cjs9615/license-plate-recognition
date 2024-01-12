@@ -6,7 +6,7 @@ const TruckList = ({ searchData, page }) => {
         <div className="">
             <div className="relative ">
                 <table className="w-full text-xs md:text-sm rtl:text-right text-gray-900 text-center">
-                    <thead className="text-xs text-gray-700 bg-gray-50">
+                    <thead className="text-xs text-white bg-[#2E3D4E]">
                         <tr>
                             <th scope="col" className="px-6 py-3 hidden md:block">
                                 번호
