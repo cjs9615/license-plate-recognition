@@ -131,7 +131,7 @@ public class AdminService {
 		if(!regiCarRepo.findByPlateNumberContaining(plateNumber).isEmpty())
 			return ResponseEntity.badRequest().build();
 		RegisteredCars regiCar = RegisteredCars.builder().plateNumber(plateNumber).regiDate(new Date()).status(true)
-			.four_digits(plateNumber.substring(plateNumber.length()-4, plateNumber.length())).build();
+			.fourDigits(plateNumber.substring(plateNumber.length()-4, plateNumber.length())).build();
 		regiCarRepo.save(regiCar);
 		
 		return ResponseEntity.ok().build();

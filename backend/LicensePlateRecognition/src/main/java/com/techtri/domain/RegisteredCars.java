@@ -35,7 +35,7 @@ public class RegisteredCars {
 	private Date regiDate;
 	
 	private boolean status;
-	private String four_digits;
+	private String fourDigits;
 	
 	public void updateCarStatus() {
 		this.status = !status;

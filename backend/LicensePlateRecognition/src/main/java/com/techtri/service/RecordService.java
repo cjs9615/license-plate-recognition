@@ -82,12 +82,12 @@ public class RecordService {
 	
 	public List<RegisteredCars> getLicensePlateNumbers(int predictId) {
 		Predict predict = predRepo.findById(predictId).get();
-		
 		String plateNumber = predict.getNumber();
-		if(plateNumber.length() > 4)
-			plateNumber = plateNumber.substring(plateNumber.length()-4, plateNumber.length());
-		plateNumber = plateNumber.replaceAll("[^0-9]", "");		
-		
+
+		plateNumber = plateNumber.replaceAll("[^0-9\s]", "");
+		if (plateNumber.length() > 4)
+			plateNumber = plateNumber.substring(plateNumber.length() - 4, plateNumber.length());
+				
 		List<RegisteredCars> list = regiCarRepo.findByPlateNumberContainingAndStatus(plateNumber, true);
 		
 		return list;
