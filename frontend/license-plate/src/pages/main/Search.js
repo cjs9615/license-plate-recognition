@@ -22,9 +22,9 @@ const Search = () => {
     }
 
 
-    useEffect(()=>{
+    useEffect(() => {
         const isMember = localStorage.getItem("token")
-        if(!isMember){
+        if (!isMember) {
             alert("로그인 후 이용해주세요");
             navigate("/");
             return
@@ -32,9 +32,9 @@ const Search = () => {
             setIsAuthorized(true);
         }
 
-    },[])
+    }, [])
 
-    if(!isAuthorized){
+    if (!isAuthorized) {
         return null;
     }
 
@@ -48,10 +48,10 @@ const Search = () => {
                 <div className="flex mb-2">
                     {
                         searchNumber
-                        ? <p className={`text-blue-500 pt-2 lg:pt-4 sm:w-[4rem] md:w-[3rem] lg:w-[5rem] w-[2.5rem] lg:p-2 text-[9px] sm:text-sm md:text-[12px] lg:text-base font-bold cursor-pointer`}>차량번호</p>
-                        : <button
-                        onClick={handleSearchNumber}
-                        className={`pt-2 lg:pt-4 sm:w-[4rem] md:w-[3rem] lg:w-[5rem] w-[2.5rem] lg:p-2 text-[9px] sm:text-sm md:text-[12px] lg:text-base font-bold `} >차량번호</button>
+                            ? <p className={`text-blue-500 pt-2 lg:pt-4 sm:w-[4rem] md:w-[3rem] lg:w-[5rem] w-[2.5rem] lg:p-2 text-[9px] sm:text-sm md:text-[12px] lg:text-base font-bold cursor-pointer`}>차량번호</p>
+                            : <button
+                                onClick={handleSearchNumber}
+                                className={`pt-2 lg:pt-4 sm:w-[4rem] md:w-[3rem] lg:w-[5rem] w-[2.5rem] lg:p-2 text-[9px] sm:text-sm md:text-[12px] lg:text-base font-bold `} >차량번호</button>
                     }
                     {
                         searchDate

@@ -6,7 +6,7 @@ import DetailModal from "./DetailModal";
 
 const SearchDate = () => {
 
-    // const Authorization = localStorage.getItem("token")
+    const [detailNumber, setDetailNumber] = useState(0);
 
     // Ref 변수 선언
     const fromDateRef = useRef();
@@ -38,24 +38,19 @@ const SearchDate = () => {
     const [detailData, setDetailData] = useState(null);
 
     const onRowClick = (seq) => {
-        fetch(`http://10.125.121.216:8080/api/techtri/record/detail/${seq}`,{
-            headers : {
+        fetch(`http://10.125.121.216:8080/api/techtri/record/detail/${seq}`, {
+            headers: {
                 Authorization: localStorage.getItem("token"),
             }
         })
             .then(resp => resp.json())
             .then(data => {
-                console.log("받은 데이터: ", data)
+                setDetailNumber(data.detail.plateNumber)
                 setDetailData(data);
                 setModalVisible(true);
             })
             .catch(error => console.error("Error fetching details: ", error))
     }
-
-    useEffect(() => {
-        console.log(page)
-    }, [page])
-
 
     // 페이지가 바뀔때 마다
     useEffect(() => {
@@ -92,11 +87,29 @@ const SearchDate = () => {
 
     // 날짜로 검색하기
     const handleSearchDate = () => {
-        const obj = {
-            searchCondition: "date",
-            fromDate: fromDateRef.current.value + " 00:00:00",
-            toDate: toDateRef.current.value + " 23:59:59",
+
+        let obj;
+
+        if (!fromDateRef.current.value && !toDateRef.current.value) {
+            obj = { searchCondition: "total" }
+        } else if (!fromDateRef.current.value && toDateRef.current.value) {
+            alert("시작 날짜를 선택해주세요.")
+            fromDateRef.current.focus();
+            return;
+        } else if (fromDateRef.current.value && !toDateRef.current.value) {
+            alert("마지막 날짜를 선택해주세요.")
+            toDateRef.current.focus();
+            return;
+        } else {
+            obj = {
+                searchCondition: "date",
+                fromDate: fromDateRef.current.value + " 00:00:00",
+                toDate: toDateRef.current.value + " 23:59:59",
+            }
         }
+
+        console.log("fetch 시작")
+
 
         const data = {
             method: "POST",
@@ -158,19 +171,19 @@ const SearchDate = () => {
                     pageRangeDisplayed={5}
                     onChange={handlePageChange}
                 />
-                {modalVisible && <DetailModal title="" onClose={() => setModalVisible(false)}>
-                    <div className="flex gap-6 mx-4">
+                {modalVisible && <DetailModal setDetailNumber={setDetailNumber} seq={detailData.detail.seq} predictId={detailData.detail.predictId} detailData={detailData} setDetailData={setDetailData} onClose={() => setModalVisible(false)} >
+                    <div className="sm:flex gap-6 mx-4">
                         {detailData.images.filter(image => image.type === "pre-prediction").map((image, index) => (
                             <div key={index}>
-                                
-                                <img className="bg-white mt-4 border-2 border-gray-300" src={image.url} alt={`이미지 ${index}`} />
+
+                                <img className="bg-white mt-4 border-2 border-gray-300 sm:w-[19rem] sm:h-[15rem] lg:w-[50rem] lg:h-[18.4rem]" src={image.url} alt={`이미지 ${index}`} />
                             </div>
                         ))}
-                        <div className="mt-4 border-2 border-gray-200 rounded-md bg-white">
-                            <div className="h-[25%] flex-col flex items-center text-base"><pre className="bg-[#2C3D4E] text-white text-center w-[12rem] border-b-2 lg:text-xs py-[6px] border-gray-300 font-bold" >날짜</pre> <p className="flex items-center justify-center grow w-full">{detailData.detail.timestamp.split("T")[0]}</p></div>
-                            <div className="h-[25%] flex-col flex items-center text-base"><pre className="bg-[#2C3D4E] text-white text-center w-[12rem] border-b-2 lg:text-xs py-[6px] border-gray-300 font-bold" >시간</pre> <p className="flex items-center justify-center grow w-full">{detailData.detail.timestamp.split("T")[1].split(".")[0]}</p></div>
-                            <div className="h-[25%] flex-col flex items-center text-base"><pre className="bg-[#2C3D4E] text-white text-center w-[12rem] border-b-2 lg:text-xs py-[6px] border-gray-300 font-bold" >차량번호</pre> <p className="flex items-center justify-center grow w-full">{detailData.detail.plateNumber}</p></div>
-                            <div className="h-[25%] flex-col flex items-center text-base"><pre className="bg-[#2C3D4E] text-white text-center w-[12rem] lg:text-xs py-[6px] font-bold" >작성자</pre> <p className="flex items-center justify-center grow w-full">{detailData.detail.writer}</p></div>
+                        <div className="grid grid-cols-2 sm:grid-cols-none border-2 mt-2 border-gray-200 rounded-md bg-white">
+                            <div className="h-[25%] sm:flex-col sm:flex sm:items-center lg:text-base"><pre className="bg-[#2C3D4E] text-white text-center sm:w-[10rem] lg:w-[12rem] text-[10px] lg:text-xs border-b-2 lg:py-[6px] border-gray-300 lg:font-bold" >날짜</pre> <p className="flex items-center justify-center grow w-full">{detailData.detail.timestamp.split("T")[0]}</p></div>
+                            <div className="h-[25%] sm:flex-col sm:flex sm:items-center lg:text-base"><pre className="bg-[#2C3D4E] text-white text-center sm:w-[10rem] lg:w-[12rem] text-[10px] lg:text-xs border-b-2 lg:py-[6px] border-gray-300 lg:font-bold" >시간</pre> <p className="flex items-center justify-center grow w-full">{detailData.detail.timestamp.split("T")[1].split(".")[0]}</p></div>
+                            <div className="h-[25%] sm:flex-col sm:flex sm:items-center lg:text-base"><pre className="bg-[#2C3D4E] text-white text-center sm:w-[10rem] lg:w-[12rem] text-[10px] lg:text-xs border-b-2 lg:py-[6px] border-gray-300 lg:font-bold" >차량번호</pre> <p className="flex items-center justify-center grow w-full">{detailNumber}</p></div>
+                            <div className="h-[25%] sm:flex-col sm:flex sm:items-center lg:text-base"><pre className="bg-[#2C3D4E] text-white text-center sm:w-[10rem] lg:w-[12rem] text-[10px] lg:text-xs lg:py-[6px] lg:font-bold" >작성자</pre> <p className="flex items-center justify-center grow w-full">{detailData.detail.writer}</p></div>
                         </div>
                     </div>
                 </DetailModal>}
