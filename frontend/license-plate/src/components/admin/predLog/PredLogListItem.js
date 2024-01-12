@@ -20,7 +20,7 @@ const PredLogListItem = ({ id, idx, number, isSuccess, time, page, setInfoModalO
                 {
                     isSuccess
                         ? <p>{number.replace(/[^\s\d]/g, "").slice(-4)}</p>
-                        :<p>X</p>
+                        : <p>X</p>
                 }
             </td>
             <td className="px-6 py-4 hidden md:block">

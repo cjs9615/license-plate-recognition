@@ -13,8 +13,6 @@ const PredInfoModal = ({ setInfoModalOpen, selPredId }) => {
     const [isSuccess, setIsSuccess] = useState();
 
     useEffect(() => {
-        // isSuccess ? boxH ="h-[650px] md:h-[800px]" : boxH ="h-[400px]";
-
         const url = `http://10.125.121.216:8080/api/techtri/admin/predict/detail/${selPredId}`;
 
         fetch(url, { 

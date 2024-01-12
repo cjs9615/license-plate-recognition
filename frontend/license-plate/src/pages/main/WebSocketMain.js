@@ -74,7 +74,6 @@ const WebSocketMain = () => {
         }
 
         webSocket.current.onmessage = (event) => {
-            console.log("이벤트 : ", JSON.parse(event.data));
             if (JSON.parse(event.data).type === "pre-prediction") {
                 // 이전 결과값 초기화, 전체 사진 설정, 데이터 분석 진행중 시작
                 // 결과값들 초기화
@@ -93,8 +92,6 @@ const WebSocketMain = () => {
                 setProgressStatus(false);
                 setPredValue(JSON.parse(event.data).predictResult);
                 setMatchedData(JSON.parse(event.data).predictResult.numberList)
-                console.log("DB 데이터 : ", JSON.parse(event.data).predictResult.numberList);
-                console.log("결과데이터 : ", JSON.parse(event.data).predictResult)
             }
         };
     }, [])

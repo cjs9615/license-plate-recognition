@@ -16,8 +16,6 @@ const MainInput = ({imgUrl, setImgUrl, setImgFile, setMatchedData, setPredValue,
         }
         const file = e.target.files[0];
 
-        // console.log("파일: ", file);
-
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = (e) => {
@@ -41,7 +39,6 @@ const MainInput = ({imgUrl, setImgUrl, setImgFile, setMatchedData, setPredValue,
         e.preventDefault();
 
         const file = e.dataTransfer.files[0];
-        // console.log("파일: ", file);
 
         const reader = new FileReader();
         reader.readAsDataURL(file);
