@@ -87,8 +87,7 @@ public class RecordService {
 		plateNumber = plateNumber.replaceAll("[^0-9\s]", "");
 		if (plateNumber.length() > 4)
 			plateNumber = plateNumber.substring(plateNumber.length() - 4, plateNumber.length());
-				
-		List<RegisteredCars> list = regiCarRepo.findByPlateNumberContainingAndStatus(plateNumber, true);
+		List<RegisteredCars> list = regiCarRepo.findByPlateNumberContainingAndStatus(plateNumber.replaceAll(" ", ""), true);
 		
 		return list;
 	}
@@ -115,6 +114,16 @@ public class RecordService {
 		
 		recordRepo.save(workRecord);
 		
+		return ResponseEntity.ok().build();
+	}
+	
+	
+	public ResponseEntity<?> updatePredictResult(int predictId) {
+		if(!predRepo.findById(predictId).isPresent())
+			return ResponseEntity.badRequest().build();
+		Predict predict = predRepo.findById(predictId).get();
+		predict.updateIsSuccess(predict.getNumber());
+		predRepo.save(predict);
 		return ResponseEntity.ok().build();
 	}
 }
