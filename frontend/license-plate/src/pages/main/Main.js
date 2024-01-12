@@ -45,13 +45,11 @@ const Main = () => {
             .then(data => {
                 if (data.success) {
                     setProgressStatus(false);
-                    console.log("데이터: ", data);
                     setPredValue(data);
                     setMatchedData(data.numberList);
 
                 } else {
                     setProgressStatus(false);
-                    // 실패했을때 처리하기
                     console.log("실패")
                 }
             })

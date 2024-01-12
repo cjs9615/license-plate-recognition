@@ -14,10 +14,8 @@ const WorkInfoModal = ({ setOpenModal, carId, predId, time, writer, setIsWaiting
             },
         })
             .then(resp => {
-                console.log(resp)
                 if (resp.status === 200) {
                     alert("등록되었습니다.");
-                    // 등록되고 나면 초기화해야함
                     setIsWaiting(true);
                     setPredValue();
                     setMatchedData();
