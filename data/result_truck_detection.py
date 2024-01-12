@@ -1,15 +1,9 @@
 #트럭 객체 추출 모델 : facebook/detr-resnet-50
 
-from transformers import DetrImageProcessor, DetrForObjectDetection
 import torch
 from PIL import Image
 
-def model_truck_detection(img, coordinates):
-
-    # you can specify the revision tag if you don't want the timm dependency
-    processor = DetrImageProcessor.from_pretrained("facebook/detr-resnet-50", revision="no_timm")
-    model = DetrForObjectDetection.from_pretrained("facebook/detr-resnet-50", revision="no_timm")
-
+def result_truck_detection(processor, model ,img, coordinates):
     inputs = processor(images=img, return_tensors="pt")
     outputs = model(**inputs)
 

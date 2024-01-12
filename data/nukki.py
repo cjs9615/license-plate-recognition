@@ -2,8 +2,8 @@ from rembg import remove
 from PIL import Image
 import os
 
-folder_path = 'D:/TechTri/test_truck_large'
-output_path = 'D:/TechTri/test_nukki_large'
+folder_path = 'D:/TechTri/test_truck_small_another'
+output_path = 'D:/TechTri/test_nukki_small_another'
 
 total_img = os.listdir(folder_path)
 

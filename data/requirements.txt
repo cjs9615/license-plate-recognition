@@ -1,4 +1,8 @@
+torch
+pillow
 flask
+requests
 yolov5
 transformers
+scikit-learn
 git+https://github.com/sberbank-ai/Real-ESRGAN.git

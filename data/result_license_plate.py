@@ -1,17 +1,6 @@
-import yolov5
 
 # 번호판 탐지 모델
-def model_license_plate(img, threshold):
-    # load model
-    model = yolov5.load('keremberke/yolov5m-license-plate')
-
-    # set model parameters
-    model.conf = 0.25  # NMS confidence threshold
-    model.iou = 0.45  # NMS IoU threshold
-    model.agnostic = False  # NMS class-agnostic
-    model.multi_label = False  # NMS multiple labels per box
-    model.max_det = 1000  # maximum number of detections per image
-
+def result_license_plate(model, img, threshold):
     # perform inference
     results = model(img, size=640)
 
