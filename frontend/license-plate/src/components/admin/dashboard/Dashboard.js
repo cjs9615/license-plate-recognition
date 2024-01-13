@@ -1,8 +1,14 @@
 
 
-const Dashboard = ({ bgColor, title, value, icon, detail1, detail2 }) => {
+const Dashboard = ({ bgColor, title, value, icon, detail1, detail2, hover, setSelDashboard }) => {
+    const selectDashboard = () => {
+        setSelDashboard(title);
+    }
+
     return (
-        <div className={`${bgColor} text-white rounded-md h-[130px] mt-[1rem] p-3 px-6`}>
+        <div
+            onClick={selectDashboard}
+            className={`${bgColor} transition-all ${hover} text-white rounded-md h-[130px] mt-[1rem] p-3 px-6`}>
             <div className="flex justify-between h-[80px]">
                 <div className="flex flex-col justify-center text-4xl font-bold">
                     {value.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}
