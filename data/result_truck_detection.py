@@ -1,9 +1,8 @@
-#트럭 객체 추출 모델 : facebook/detr-resnet-50
-
 import torch
-from PIL import Image
+import sys
 
-def result_truck_detection(processor, model ,img, coordinates):
+#트럭 객체 추출 모델 : facebook/detr-resnet-50
+def result_truck_detection(processor, model ,img, x1, y1, x2, y2):
     inputs = processor(images=img, return_tensors="pt")
     outputs = model(**inputs)
 
@@ -12,15 +11,13 @@ def result_truck_detection(processor, model ,img, coordinates):
     target_sizes = torch.tensor([img.size[::-1]])
     results = processor.post_process_object_detection(outputs, target_sizes=target_sizes, threshold=0.5)[0]
 
-    box_size = 1000000
-    #best_score = 0
+    box_size = sys.maxsize
 
     for score, label, box in zip(results["scores"], results["labels"], results["boxes"]):
-
         box = [round(i, 2) for i in box.tolist()]
 
         # 번호판을 포함하는 트럭만 추출
-        if(coordinates[0] < box[0] or coordinates[1] < box[1] or coordinates[2] > box[2] or coordinates[3] > box[3]) : continue
+        if(x1 < box[0] or y1 < box[1] or x2 > box[2] or y2 > box[3]) : continue
 
         # 제일 작은 박스의 트럭 추출
         if(box_size > ((box[2] - box[0]) * (box[3] - box[1]))) :

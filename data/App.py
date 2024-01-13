@@ -12,9 +12,6 @@ from transformers import TrOCRProcessor, VisionEncoderDecoderModel
 from transformers import DetrImageProcessor, DetrForObjectDetection
 
 from result_license_plate import result_license_plate
-from result_RealESRGAN import result_RealESRGAN
-from result_TrOCR import result_TrOCR
-from result_truck_detection import result_truck_detection
 
 import torch.nn as nn
 import torchvision.transforms as transforms
@@ -64,16 +61,19 @@ def receive_imgage_url():
         img = Image.open(requests.get(dto_json['url'], stream=True).raw).convert("RGB")
         #img = Image.open(dto_json['url'])
     else:
+        #포스트맨으로 로컬에서 실험
         img = Image.open(dto_json['local'])
     
 
-    #번호판 이미지 추출
-    license_plate_result = result_license_plate(model_license_plate, img, threshold=0)
-    license_plate_img = license_plate_result[0]
-    license_plate_coordinate = license_plate_result[1]
-    if(license_plate_img == 'no license_plate') : 
+    #번호판 인식 후 ocr 결과
+    license_plate_result = result_license_plate(model_license_plate, model_RealESRGAN, processor_trocr, model_trocr, processor_detr, model_detr, img, threshold=0, device=device)
+    if(license_plate_result == 'no license_plate') : 
         response['success'] = False
         response['message'] = 'no license_plate'
+        return jsonify(response)
+    elif(license_plate_result == 'image too small') : 
+        response['success'] = False
+        response['message'] = 'image too small'
         return jsonify(response)
     
     license_plate_img_path = './images/license_plate_img.jpg'
@@ -81,20 +81,13 @@ def receive_imgage_url():
     with open(license_plate_img_path, "rb") as image_file:
         encoded_license_plate_img = base64.b64encode(image_file.read()).decode('utf-8')
 
-    result_truck_detection(processor_detr, model_detr, img, license_plate_coordinate)
-
     truck_img_path = './images/truck_img.jpg'
     # 이미지 파일을 Base64로 인코딩
     with open(truck_img_path, "rb") as image_file:
         encoded_truck_img = base64.b64encode(image_file.read()).decode('utf-8')
 
-    #이미지 화질 개선
-    sr_img = result_RealESRGAN(model_RealESRGAN, license_plate_img)
 
-    #TrOCR
-    generated_text = result_TrOCR(processor_trocr, model_trocr, sr_img, device)
-
-    response['result'] = generated_text
+    response['result'] = license_plate_result
     response['license_plate_image'] = encoded_license_plate_img
     response['truck_image'] = encoded_truck_img
     response['format'] = 'jpeg'
@@ -110,6 +103,13 @@ def receive_number_list():
     #name = dto_json['name']
 
     print(dto_json)
+
+    # JSON 응답을 생성
+    response = {
+        'result': '',
+        'success': '',
+        'message': ''
+    }
     
     model = resnet50(pretrained=True)
     model.eval()
@@ -157,6 +157,12 @@ def receive_number_list():
                 extracted_features_list.append(features.tolist()[0])
                 extracted_name_list.append(img_name)
 
+    if(len(extracted_features_list) == 0) :
+        response['result'] = 'no match'
+
+        #Spring으로 response 전달
+        return jsonify(response)
+
     img = Image.open('./images/truck_img.jpg').convert('RGB')
     transform = transforms.Compose([
         transforms.Resize((224, 224)),
@@ -187,13 +193,6 @@ def receive_number_list():
 
     # 가장 유사한 것의 인덱스 찾기
     most_similar_index_cosine = np.argmax(similarities)
-
-    # JSON 응답을 생성
-    response = {
-        'result': '',
-        'success': '',
-        'message': ''
-    }
 
     response['result'] = extracted_name_list[most_similar_index_cosine]
 

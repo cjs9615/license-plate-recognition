@@ -1,11 +1,15 @@
+import numpy as np
+from result_RealESRGAN import result_RealESRGAN
+from result_TrOCR import result_TrOCR
+from result_truck_detection import result_truck_detection
 
-# 번호판 탐지 모델
-def result_license_plate(model, img, threshold):
+# 번호판 탐지 모델 결과
+def result_license_plate(model_license_plate, model_RealESRGAN, processor_trocr, model_trocr, processor_detr, model_detr, img, threshold, device):
     # perform inference
-    results = model(img, size=640)
+    results = model_license_plate(img, size=640)
 
     # inference with test time augmentation
-    results = model(img, augment=True)
+    results = model_license_plate(img, augment=True)
 
     # parse results
     predictions = results.pred[0]
@@ -13,27 +17,34 @@ def result_license_plate(model, img, threshold):
     scores = predictions[:, 4]
     categories = predictions[:, 5]
 
-    result = []
+    license_plate_img = 'no license_plate'
     #print('번호판 정확도',scores[0])
     # show detection bounding boxes on image
     if (len(boxes) > 0) and scores[0]>=threshold:
+        for box in boxes :
+            # Get the coordinates of the first bounding box
+            x1, y1, x2, y2 = map(int, box)
+
+            # Crop the license plate region from the original image
+            license_plate_img = img.crop((x1, y1, x2, y2))
+            image_array = np.array(license_plate_img)
+            if(len(image_array) < 15) :
+                license_plate_img = 'image too small'
+                break
+
+            #이미지 화질 개선
+            sr_img = result_RealESRGAN(model_RealESRGAN, license_plate_img)
+
+            #TrOCR
+            generated_text = result_TrOCR(processor_trocr, model_trocr, sr_img, device)
+
+            if 'DO' in generated_text or 'NO' in generated_text or 'SO' in generated_text or 'RO' in generated_text  :
+                license_plate_img = 'no license_plate'
+            else :
+                # Save or display the cropped license plate image
+                license_plate_img.save("./images/"+'license_plate_img'+'.jpg','JPEG')
+                result_truck_detection(processor_detr, model_detr, img, x1, y1, x2, y2)
+                return generated_text
         
-        # Get the coordinates of the first bounding box
-        coordinates = list(map(int, boxes[0]))
-
-        # for box in boxes :
-        #   coordinates.append(list(map(int, box)))
-
-        # Get the coordinates of the first bounding box
-        # x1, y1, x2, y2 = map(int, boxes[0])
-
-        # Crop the license plate region from the original image
-        license_plate_img = img.crop((coordinates[0], coordinates[1], coordinates[2], coordinates[3]))
-        result.append(license_plate_img)
-        result.append(coordinates)
-
-        # Save or display the cropped license plate image
-        license_plate_img.save("./images/"+'license_plate_img'+'.jpg','JPEG')
-        return result
-
-    else : return result.append('no license_plate')
+    return license_plate_img
+        

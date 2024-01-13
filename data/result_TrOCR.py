@@ -1,5 +1,3 @@
-from transformers import TrOCRProcessor, VisionEncoderDecoderModel
-from PIL import Image
 
 #TrOCR
 def result_TrOCR(processor, model, img, device):
