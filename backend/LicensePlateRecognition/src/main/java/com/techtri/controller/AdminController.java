@@ -1,5 +1,6 @@
 package com.techtri.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
@@ -53,5 +54,15 @@ public class AdminController {
 	@GetMapping("/api/techtri/admin/predict/detail/{predictId}")
 	public Map<String, Object> getPredictDetail(@PathVariable Integer predictId) {
 		return adminService.getPredictDetail(predictId);
+	}
+	
+	@GetMapping("/api/techtri/admin/dashboard/detail/predict")
+	public Map<String, Object> getDashBoardDetailPredict() {
+		return adminService.getDashBoardDetailPredict();
+	}
+	
+	@GetMapping("/api/techtri/admin/dashboard/detail/work")
+	public List<Long> getDashBoardDetailWork() {
+		return adminService.getMonthlyWorkCounts();
 	}
 }
