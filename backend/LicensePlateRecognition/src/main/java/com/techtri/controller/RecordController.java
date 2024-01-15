@@ -50,4 +50,9 @@ public class RecordController {
 			@RequestParam String writer) {
 		return recordService.createWorkRecord(carId, predictId, writer);
 	}
+	
+	@PutMapping("/api/techtri/record/{predictId}")
+	public ResponseEntity<?> updatePredictResult(@PathVariable Integer predictId) {
+		return recordService.updatePredictResult(predictId);
+	}
 }

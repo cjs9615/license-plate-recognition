@@ -27,14 +27,25 @@ public class Predict {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@CreationTimestamp 
+	@CreationTimestamp
 	@JsonFormat(timezone = "Asia/Seoul")
 	private Timestamp time;
-	
+
 	private Boolean isSuccess; // 추론 결과
-	
+
 	private String number; // 추론한 번호
-	
+
 	@Column(nullable = true)
 	private String comment; // 비고사항
+
+	public void updateNumberAndComment(String number) {
+		this.number = number;
+		this.comment = "executed_object_feature_matching";
+	}
+	
+	public void updateIsSuccess(String predictNumber) {
+		this.isSuccess = !isSuccess;
+		this.comment = "incorrect_number : "+predictNumber;
+
+	}
 }

@@ -3,6 +3,7 @@ package com.techtri.service;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.YearMonth;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -69,12 +70,15 @@ public class AdminService {
         return 0L;
     }
 	
-	private Map<String, Object> getTodayPredictResult() {
-		Map<String, Object> map = new HashMap<>();
-
+	private String getTodayDate() {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date now = new Date();
-		String today = format.format(now);
+		return format.format(now);
+	}
+	
+	private Map<String, Object> getTodayPredictResult() {
+		Map<String, Object> map = new HashMap<>();
+		String today = getTodayDate();
 		
 		Timestamp start = Timestamp.valueOf(today+" 00:00:00");
 		Timestamp end = Timestamp.valueOf(today+" 23:59:59");
@@ -131,7 +135,7 @@ public class AdminService {
 		if(!regiCarRepo.findByPlateNumberContaining(plateNumber).isEmpty())
 			return ResponseEntity.badRequest().build();
 		RegisteredCars regiCar = RegisteredCars.builder().plateNumber(plateNumber).regiDate(new Date()).status(true)
-			.four_digits(plateNumber.substring(plateNumber.length()-4, plateNumber.length())).build();
+			.fourDigits(plateNumber.substring(plateNumber.length()-4, plateNumber.length())).build();
 		regiCarRepo.save(regiCar);
 		
 		return ResponseEntity.ok().build();
@@ -153,5 +157,25 @@ public class AdminService {
 		detail.put("predictDetail", predict);
 		detail.put("imageList", imageList);
 		return detail;
+	}
+	
+	public Map<String, Object> getDashBoardDetailPredict() {
+		Map<String, Object> map = new HashMap<>();
+		map.put("today",  getTodayPredictResult());
+		
+		Map<String, Object> totalPredictCount = new HashMap<>();
+		totalPredictCount.put("success", predictRepo.countByIsSuccess(true).get(0)[0]);
+		totalPredictCount.put("fail", predictRepo.countByIsSuccess(false).get(0)[0]);
+
+		map.put("total", totalPredictCount);
+		return map;
+	}
+	
+	public List<Long> getMonthlyWorkCounts() {
+		List<Long> list = new ArrayList<>();
+		List<Object[]> result = recordRepo.getMonthlyWordCount();
+		for(Object[] o : result)
+			list.add((long)o[1]);		
+		return list;
 	}
 }
