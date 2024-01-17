@@ -40,6 +40,8 @@ const TruckInfo = () => {
       body: JSON.stringify(targetNumber)
     };
 
+    setSearchData();
+
     fetch('http://10.125.121.216:8080/api/techtri/admin/car/1', data)
       .then(resp => resp.json())
       .then(data => {
@@ -73,6 +75,8 @@ const TruckInfo = () => {
         number: numberRef.current.value
       }
     }
+
+    setSearchData();
 
     const data = {
       method: 'POST',

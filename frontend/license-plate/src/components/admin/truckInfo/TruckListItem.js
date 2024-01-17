@@ -2,6 +2,7 @@ import { useState } from "react"
 
 const TruckListItem = ({id, plateNumber, regiDate, status, page, idx}) => {
     const [isActive, setIsActive] = useState(status);
+    console.log(page,"페이지 : ",status);
 
     const handleActive = (e) => {
         setIsActive(e.target.checked);
@@ -33,6 +34,7 @@ const TruckListItem = ({id, plateNumber, regiDate, status, page, idx}) => {
                         ? <span className="bg-green-100 rounded-full py-1 px-3 font-bold text-green-700">&nbsp;Active&nbsp;</span>
                         : <span className="bg-red-100 rounded-full py-1 px-3 font-bold text-red-700">inactive</span>
                 }
+                
             </td>
             <td className="text-lg px-6 py-4">
                 <label className="relative inline-flex items-center  cursor-pointer">
