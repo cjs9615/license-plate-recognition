@@ -2,7 +2,6 @@ import { useState } from "react"
 
 const TruckListItem = ({id, plateNumber, regiDate, status, page, idx}) => {
     const [isActive, setIsActive] = useState(status);
-    console.log(page,"페이지 : ",status);
 
     const handleActive = (e) => {
         setIsActive(e.target.checked);
