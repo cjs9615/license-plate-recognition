@@ -15,9 +15,10 @@ def result_license_plate(model_license_plate, model_RealESRGAN, processor_trocr,
     predictions = results.pred[0]
     boxes = predictions[:, :4] # x1, y1, x2, y2
     scores = predictions[:, 4]
-    categories = predictions[:, 5]
+    #categories = predictions[:, 5]
 
     license_plate_img = 'no license_plate'
+    x1, y1, x2, y2 = 0, 0, 0, 0
     #print('번호판 정확도',scores[0])
     # show detection bounding boxes on image
     if (len(boxes) > 0) and scores[0]>=threshold:
@@ -28,6 +29,10 @@ def result_license_plate(model_license_plate, model_RealESRGAN, processor_trocr,
             # Crop the license plate region from the original image
             license_plate_img = img.crop((x1, y1, x2, y2))
             image_array = np.array(license_plate_img)
+            if(len(image_array) < 15) :
+                license_plate_img_size = license_plate_img.size
+                license_plate_img  = license_plate_img.resize((int(license_plate_img_size[0]*(1.1)), int(license_plate_img_size[1]*(1.1))))
+                image_array = np.array(license_plate_img)
             if(len(image_array) < 15) :
                 license_plate_img = 'image too small'
                 break
@@ -43,7 +48,7 @@ def result_license_plate(model_license_plate, model_RealESRGAN, processor_trocr,
             else :
                 # Save or display the cropped license plate image
                 license_plate_img.save("./images/"+'license_plate_img'+'.jpg','JPEG')
-                result_truck_detection(processor_detr, model_detr, img, x1, y1, x2, y2)
+                result_truck_detection(processor_detr, model_detr, img, x1, y1, x2, y2, 0.007)
                 return generated_text
         
     return license_plate_img

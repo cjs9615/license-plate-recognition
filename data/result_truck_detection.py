@@ -2,14 +2,14 @@ import torch
 import sys
 
 #트럭 객체 추출 모델 : facebook/detr-resnet-50
-def result_truck_detection(processor, model ,img, x1, y1, x2, y2):
+def result_truck_detection(processor, model ,img, x1, y1, x2, y2, threshold):
     inputs = processor(images=img, return_tensors="pt")
     outputs = model(**inputs)
 
     # convert outputs (bounding boxes and class logits) to COCO API
     # let's only keep detections with score > 0.9
     target_sizes = torch.tensor([img.size[::-1]])
-    results = processor.post_process_object_detection(outputs, target_sizes=target_sizes, threshold=0.5)[0]
+    results = processor.post_process_object_detection(outputs, target_sizes=target_sizes, threshold=threshold)[0]
 
     box_size = sys.maxsize
 
