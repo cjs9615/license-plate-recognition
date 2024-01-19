@@ -4,6 +4,12 @@
 
 ## 개발환경
 
+```
+각 파트별 세부사항은 폴더아래 README 파일을 확인하시면 됩니다.
+
+보안 관계상 AWS 키는 삭제하여 업로드 되어있습니다. 프로젝트 실행을 위해서는 별도의 AWS 설정이 필요합니다.
+```
+
 ### 개발 기간
 2023.12.13 ~ 2023.01.19 (1개월)
 
@@ -15,7 +21,7 @@
 |[<img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">](https://github.com/cjs9615)|[<img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">](https://github.com/777Mino777)|[<img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">](https://github.com/maejyomi)|[<img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">](https://github.com/ynnij)|
 
 ### 시스템 구성
-
+<img src="https://github.com/cjs9615/Aiproject/assets/141015562/26b223a1-b00e-4851-9a81-38b79867088a">
 
 ## 주요기능
 
@@ -34,26 +40,43 @@
 ## 구현 결과
 
 ### 로그인, 회원가입
-
+<img src="https://github.com/cjs9615/Aiproject/assets/141015562/a6d18b8c-22ce-47d8-8c93-d6da468aaa25">
 
 ### 메인페이지
 
 - 이벤트 대기
-
+<img src="https://github.com/cjs9615/Aiproject/assets/141015562/07158a85-840e-43ad-9271-2108e361dd75">
 
 - 이벤트 감지
-
+<img src="https://github.com/cjs9615/Aiproject/assets/141015562/2dbd6ff3-cd6c-4bbf-90f4-8ff568fc954a">
 
 - 차량추출, 번호판 추출 성공
+<img src="https://github.com/cjs9615/Aiproject/assets/141015562/25e006b0-1ef4-4962-b937-7cf9994dbe83">
 
-
-- 추출 실패
-
+- 추론 실패
+<img src="https://github.com/cjs9615/Aiproject/assets/141015562/819230ed-c330-45f0-bd8c-d24c40440ccf">
 
 ### 검색 페이지
 
 - 차량번호 / 날짜로 검색
+<img src="https://github.com/cjs9615/Aiproject/assets/141015562/592c46e9-353e-4490-a2dc-e4e49e2108d6">
 
 - 상세보기
+<img src="https://github.com/cjs9615/Aiproject/assets/141015562/83e53577-43d8-4e94-b33e-7d41f01907e7">
 
 - 수정
+<img src="https://github.com/cjs9615/Aiproject/assets/141015562/48232ef3-dcf6-4f98-b1ad-0c7aef2d1802">
+
+### 관리자 페이지
+
+- 대시보드, 차량관리
+<img src="https://github.com/cjs9615/Aiproject/assets/141015562/f94dd348-327e-4a49-a6d7-94c00c5cf6dd">
+
+- 그래프
+<img src="https://github.com/cjs9615/Aiproject/assets/141015562/4d92e1a0-3096-462b-bfef-f8fbc6210794">
+
+- 그래프
+<img src="https://github.com/cjs9615/Aiproject/assets/141015562/925988f1-7538-4279-b5ff-8b9f9cb66071">
+
+- 추론기록
+<img src="https://github.com/cjs9615/Aiproject/assets/141015562/fc62ca9a-fc10-4b9d-883d-0506fa33cf98">
