@@ -19,7 +19,7 @@
 ## ERD 및 REST API 설계
 
 ### 1. ERD
-
+<img src="https://github.com/cjs9615/Aiproject/assets/87576974/f66b05a6-81d5-45a3-8491-3a18fd46c355">
 
 ### 2. REST API
 
